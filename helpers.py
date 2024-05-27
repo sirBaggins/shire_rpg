@@ -38,4 +38,4 @@ def validate_credential(credential, type):
             else:
                 return True
         case _:
-            return False
+            raise ValueError("Invalid type", type)
