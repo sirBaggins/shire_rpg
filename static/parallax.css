@@ -1,0 +1,187 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+    height: 100vh;
+    overflow: hidden;
+
+}
+
+.parallax img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+
+
+    @media only screen and (max-width: 480px) {
+        height: 100%;
+        animation: none;
+    }
+
+    @media only screen and (min-width: 481px) and (max-width: 720px) {
+        height: 100%;
+    }
+
+    @media only screen and (min-width: 721px) {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+@keyframes t_top2 {
+    from {
+        -webkit-transform: translateX(-1px);
+        transform: translateX(-1px);
+    }
+
+    to {
+        -webkit-transform: translateX(1px);
+        transform: translateX(1px);
+    }
+}
+
+@keyframes t_middle {
+    from {
+        -webkit-transform: translateX(-5px);
+        transform: translateX(-5px);
+    }
+
+    to {
+        -webkit-transform: translateX(5px);
+        transform: translateX(5px);
+    }
+}
+
+#bg0 {
+    z-index: -1;
+    left: 0;
+    background-size: cover;
+}
+
+#bg4 {
+    z-index: 0;
+    animation-duration: 5s;
+}
+
+#bg3 {
+    z-index: 0;
+    animation-duration: 7s;
+    animation-delay: 60ms;
+}
+
+#bg2 {
+    z-index: 2;
+    animation-duration: 1s;
+}
+
+#bg1 {
+    z-index: 3;
+    animation-duration: 1s;
+}
+
+.t_top2 {
+    animation-name: t_top2;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+}
+
+.t_middle {
+    animation-name: t_middle;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+}
+
+.middle-menu {
+    top: 5rem;
+
+    position: relative;
+    width: 20rem;
+    padding: 1rem;
+
+    background-color: rgba(255, 255, 255, 0.389);
+    border-radius: 8px;
+
+    @media only screen and (max-width: 480px) {
+        left: 10%;
+    }
+
+    @media only screen and (min-width: 481px) and (max-width: 720px) {
+        left: 30%;
+    }
+
+    @media only screen and (min-width: 721px) {
+        left: 40%;
+        background-color: rgba(48, 48, 48, 0.181);
+    }
+
+}
+
+.text-center {
+    text-align: center;
+}
+
+.marginauto {
+    margin-left: 2rem;
+}
+
+.margin2 {
+    text-align: center;
+}
+
+form label,
+a {
+    display: block;
+    text-decoration: none;
+    color: #000;
+}
+
+form input,
+a {
+    margin-bottom: 1rem;
+}
+
+form a:hover {
+    text-decoration: underline;
+}
+
+form input {
+    font-size: large;
+    color: black;
+    width: 80%;
+    height: 2rem;
+    border: none;
+    border-radius: 44px;
+    background-color: rgba(255, 255, 255, 0.271);
+}
+
+form input::placeholder {
+    color: rgb(63, 63, 63);
+}
+
+form button {
+    padding: 0.5rem;
+    width: 80%;
+    border: none;
+    border-radius: 8px;
+    background-color: bisque;
+}
+
+form button:hover {
+    background-color: rgb(255, 205, 143);
+    cursor: pointer;
+}
+
+.rem1bot {
+    margin-bottom: 1rem;
+}
+
+.rem05bot {
+    margin-bottom: 0.5rem;
+}
