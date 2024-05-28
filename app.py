@@ -14,7 +14,7 @@ app.config.from_object(__name__)
 Session(app)
 
 # DATABASE LINK
-db = SQL("sqlite:///database.db")
+db = SQL("sqlite:///shire.db")
 
 # FUNCTIONS!!
 @app.after_request
@@ -25,9 +25,6 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-# Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///shire.db")
-
 # INDEX
 @app.route("/")
 def index():
@@ -37,7 +34,7 @@ def index():
 @app.route("/register/", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
-        render_template("register.html")
+        return render_template("register.html")
     else:
         return "post register"
 
@@ -45,7 +42,7 @@ def register():
 @app.route("/login/", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        render_template("login.html")
+        return render_template("login.html")
     else:
         return "post login"
 
