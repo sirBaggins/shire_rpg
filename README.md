@@ -1,6 +1,6 @@
 # Shire_RPG
 
-Welcome to **Shire_RPG**, a comprehensive web application designed for RPG enthusiasts. With Shire_RPG, you can create, edit, and manage RPG character sheets for games like Vampire: The Masquerade and Dungeons & Dragons. Our platform also includes features such as dice rolling and campaign recall storage, all available for free!
+Welcome to **Shire_RPG**, a comprehensive web application designed for RPG enthusiasts. With Shire_RPG, you can create, edit, and manage RPG character sheets for games like Vampire: The Masquerade and Dungeons & Dragons. This application also includes features such as dice rolling and campaign recall storage, all available for free!
 ## Features
 
 * **Create and Edit Character Sheets:** Effortlessly create and customize character sheets for a variety of RPG games.  
