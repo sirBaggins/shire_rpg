@@ -1,5 +1,39 @@
 {% extends "layout.html" %}
 
+<link rel="stylesheet" href="../static/styles.css">
 {% block title %}Welcome to Shire_RPG{% endblock %}
 
-{% block main %}{% endblock %}
+{% block main %}
+
+<main>
+
+    <article class="welcome">
+        <h1 class="medfont">Welcome to <strong>Shire_RPG</strong></h1>
+    </article>
+
+    <section class="parallax">
+        <img src="../static/bg/bg1.png" id="bg1">
+        <img src="../static/bg/bg2.png" id="bg2">
+        <img src="../static/bg/bg3.png" id="bg3">
+        <img src="../static/bg/bg4.png" id="bg4">
+    </section>
+
+</main>
+
+
+<script>
+    function moveListener(event) {
+        let x = event.clientX;
+        aX = ~~((x - (x * 0.95)) * 0.25);
+        document.getElementById("bg1").style.translate = (aX - 30) + "px";
+        document.getElementById("bg2").style.translate = (aX + 15) + "px";
+        document.getElementById("bg3").style.translate = - (aX * 0.25) + "px";
+        document.getElementById("bg4").style.translate = ((aX + 150) * 0.25) + "px";
+    }
+    document.addEventListener("mousemove", moveListener);
+</script>
+
+
+
+
+{% endblock %}
