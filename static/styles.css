@@ -16,7 +16,7 @@ body {
     background-size: cover;
     background-attachment: fixed;
     background-position: center center;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 /* NAVBAR */
@@ -28,7 +28,7 @@ body {
 
 header {
     background-color: rgba(5, 20, 5, 0.212);
-    width: 100vw;
+    width: 100%;
 }
 
 .header__content {
@@ -36,8 +36,8 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 80vw;
-    margin: 0 auto;
+    max-width: 80rem;
+    margin: 0 1rem;
 }
 
 ul {
@@ -64,7 +64,7 @@ a {
 
     text-transform: capitalize;
     font-weight: bolder;
-    font-size: 16pt;
+    font-size: large;
 }
 
 .register__btn {
@@ -87,46 +87,133 @@ a {
 }
 
 .register__btn:hover {
-    background-color: rgb(202, 202, 0);
+    background-color: rgb(150, 150, 0);
 }
 
 .parallax img {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
     pointer-events: none;
 }
 
 #bg1 {
-    z-index: 1;
+    z-index: -5;
 }
 
 #bg2 {
-    z-index: 1;
+    z-index: -5;
 }
 
 #bg3 {
-    z-index: -1;
+    z-index: -7;
     filter: blur(4px);
+    height: 50vw;
 }
 
 #bg4 {
-    z-index: 0;
+    z-index: -6;
     filter: blur(1px);
 }
 
-.welcome {
-    background-color: rgba(0, 8, 0, 0.247);
-    text-align: center;
-    width: 30rem;
-    margin: auto;
-    color: black;
-    font-size: x-large;
+.yellow-shadow {
+    color: rgb(236, 236, 0);
+    text-shadow: 4px 4px 4px black;
 }
 
-strong {
-    font-weight: bold;
-    color: rgb(224, 224, 0);
+.center-text {
+    text-align: center;
+}
+
+.black {
+    color: #ffffff;
     text-shadow: 2px 2px 2px black;
+}
+
+.welcome {
+    background-color: rgba(0, 0, 0, 0.651);
+    color: white;
+    padding: 2rem;
+    text-align: justify;
+    font-size: large;
+    width: fit-content;
+    margin: 6rem auto;
+}
+
+.welcome h4 {
+    margin: 0;
+    color: rgb(170, 170, 0);
+    text-shadow: 2px 2px 2px black;
+}
+
+.welcome p {
+    margin: 0.5rem 0 1rem 1rem;
+}
+
+.welcome a {
+    margin-left: 1rem;
+}
+
+.form-box {
+    background-color: rgba(5, 20, 5, 0.212);
+    padding: 2rem;
+    width: fit-content;
+    margin: 6rem auto;
+}
+
+.form-box-inside {
+    text-align: center;
+}
+
+.form-box label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.form-box input {
+    text-align: center;
+    border: none;
+    border-radius: 10px;
+    height: 20pt;
+    padding: 2px 10px;
+    margin-bottom: 1rem;
+
+}
+
+.form-box input:focus,
+button:focus {
+    outline: rgb(224, 224, 0) solid 1px;
+    box-shadow: 0 0 10px rgb(224, 224, 0);
+}
+
+.form-box button {
+    padding: 1em;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.button-box {
+    text-align: center;
+}
+
+.display-block {
+    display: block;
+}
+
+.mini-text {
+    font-size: small;
+    font-style: italic;
+    text-align: center;
+}
+
+.messageLength {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.eye {
+    cursor: pointer;
 }

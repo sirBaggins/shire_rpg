@@ -1,15 +1,10 @@
 {% extends "layout.html" %}
 
-<link rel="stylesheet" href="../static/styles.css">
 {% block title %}Welcome to Shire_RPG{% endblock %}
 
 {% block main %}
 
 <main>
-
-    <article class="welcome">
-        <h1 class="medfont">Welcome to <strong>Shire_RPG</strong></h1>
-    </article>
 
     <section class="parallax">
         <img src="../static/bg/bg1.png" id="bg1">
@@ -18,19 +13,60 @@
         <img src="../static/bg/bg4.png" id="bg4">
     </section>
 
+    <article class="welcome">
+        <div class="welcome-div">
+            <h1 class="medfont center-text black">
+                Welcome to <strong class="yellow-shadow">Shire_RPG</strong>
+            </h1>
+            <h4>Functionality</h4>
+            <p>
+                <strong>Create, edit and use</strong> simple rpg sheets for your remote rpg sessions!
+            </p>
+            <h4>Built-in dice roller</h4>
+            <p>
+                Sheet has a <strong>built-in dice roler</strong> along with each attribute and skill.
+            </p>
+            <h4>Fixed and variable values</h4>
+            <p>
+                Sheet attributes are fixed on read mode, but some might be changeble.
+            </p>
+
+            <h3 class="yellow-shadow center-text">Log in to access your sheets!</h3>
+            <div class="center-text">
+                <a href="/login" class="nav__btn">log in</a>
+
+                <a href="/register" class="nav__btn register__btn">register</a>
+            </div>
+        </div>
+
+
+
+
+    </article>
+
+
+
+
 </main>
 
 
 <script>
+    let isMobile = false;
+    if (window.screen.width < 768) {
+        isMobile = true;
+    }
+
     function moveListener(event) {
         let x = event.clientX;
         aX = ~~((x - (x * 0.95)) * 0.25);
         document.getElementById("bg1").style.translate = (aX - 30) + "px";
-        document.getElementById("bg2").style.translate = (aX + 15) + "px";
-        document.getElementById("bg3").style.translate = - (aX * 0.25) + "px";
-        document.getElementById("bg4").style.translate = ((aX + 150) * 0.25) + "px";
+        document.getElementById("bg2").style.translate = aX + "px";
+        document.getElementById("bg3").style.translate = - ((aX) * 0.2) + "px";
+        document.getElementById("bg4").style.translate = (aX * 0.2) + "px";
     }
-    document.addEventListener("mousemove", moveListener);
+    if (!isMobile) {
+        document.addEventListener("mousemove", moveListener);
+    }
 </script>
 
 
