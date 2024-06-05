@@ -19,4 +19,22 @@ db = SQL("sqlite:///shire.db")
 # INDEX
 @app.route("/")
 def index():
-        return render_template("index.html")
+    return render_template("index.html")
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "GET":
+        session.clear()
+        return render_template("register.html")
+    else:
+        return redirect(url_for("login"))
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        session.clear()
+        return render_template("login.html")
+    else:
+        return "ok"

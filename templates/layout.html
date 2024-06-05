@@ -15,6 +15,7 @@
 
     <!-- navbar foreigner -->
     {% if not session["user_id"] %}
+
     <header>
         <div class="header__content medfont">
             <i>
@@ -25,13 +26,6 @@
             <!-- <nav>
                 <ul>
                     <li>
-                        <a href="/home" class="nav__btn"></a>
-                    </li>
-                </ul>
-            </nav> -->
-            <nav>
-                <ul>
-                    <li>
                         <a href="/login" class="nav__btn">log in</a>
                     </li>
                     <li>
@@ -39,8 +33,9 @@
                     </li>
                 </ul>
             </nav>
-        </div>
+        </div> -->
     </header>
+
     {% else %}
     <!-- navbar local -->
     <header>
