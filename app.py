@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # Configure application
 app = Flask(__name__)
+app.secret_key = b"frango_frito_151413"
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
@@ -25,16 +26,66 @@ def index():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
-        session.clear()
-        return render_template("register.html")
+        if session.get("user_id") is None:
+            return render_template("register.html")
+        else:
+            return redirect(url_for("index"))
     else:
-        return redirect(url_for("login"))
+        email = str(request.form.get("email"))
+        password = str(request.form.get("password"))
+        confirmPassword = str(request.form.get("confirmPassword"))
+        # Validate
+        if not validate_credential(email, "email") or not validate_credential(password, "password") or not validate_credential(confirmPassword, "password"):
+            flash("Fields must not be empty", "error")
+            return redirect(url_for("register"))
+        # Verify DB
+        if db.execute("SELECT * FROM users WHERE email = ?", email):
+            flash("User already registered", "error")
+            return redirect(url_for("register"))
+        # Validate
+        if password != confirmPassword:
+            flash("Passwords didn't match", "error")
+            return redirect(url_for("register"))
+
+        password = generate_password_hash(password)
+        db.execute("INSERT INTO users (email, hash) VALUES (?, ?)", email, password)
+        if db.execute("SELECT * FROM users WHERE email = ?", email):
+            flash("Successfully registered.", "success")
+            return redirect(url_for("login"))
+        else:
+            flash("Something went wrong.. Try again!", "error")
+            return redirect(url_for("register"))
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        session.clear()
-        return render_template("login.html")
+        if session.get("user_id") is None:
+            return render_template("login.html")
+        else:
+            return render_template("index.html")
     else:
-        return "ok"
+        email = str(request.form.get("email"))
+        password = str(request.form.get("password"))
+        # Validate
+        if not validate_credential(email, "email") or not validate_credential(password, "password"):
+            flash("Fields must not be empty", "error")
+            return redirect(url_for("login"))
+        # Query
+        query = db.execute("SELECT * FROM users WHERE email = ?", email)
+        # Validate
+        if not query:
+            flash("User not found", "error")
+            return redirect(url_for("login"))    
+        elif check_password_hash(query[0]["hash"], password):
+            session["user_id"] = query[0]["user_id"]
+            return redirect(url_for("index"))
+        else:
+            flash("Password didn't fit well...", "error")
+            return redirect(url_for("login"))
+
+@app.route("/logout")
+@login_required
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
