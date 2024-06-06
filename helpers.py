@@ -1,10 +1,11 @@
-from re import match
-from flask import redirect, render_template, request, session
+from re import compile, fullmatch
+
+from flask import redirect, request, session, redirect
 from functools import wraps
 
 
 # CONSTANTS
-EMAIL_PATTERN = r"^[\w\.-]+@[\w\.-]+\.\w+$"
+EMAIL_PATTERN = compile(r"([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+")
 
 # REQUIRE LOGIN
 def login_required(f):
@@ -33,9 +34,11 @@ def validate_credential(credential, type):
             else:
                 return True
         case "email":
-            if not match(EMAIL_PATTERN, credential):
+            if not fullmatch(EMAIL_PATTERN, credential):
                 return False
             else:
                 return True
         case _:
             raise ValueError("Invalid type", type)
+        
+

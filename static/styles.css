@@ -35,8 +35,8 @@ header {
     height: 6rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    max-width: 80rem;
+    justify-content: space-around;
+    max-width: 100%;
     margin: 0 1rem;
 }
 
@@ -216,4 +216,26 @@ button:focus {
 
 .eye {
     cursor: pointer;
+}
+
+.flashed {
+    height: fit-content;
+    min-width: fit-content;
+    margin: auto;
+    margin-top: 1rem;
+
+    text-align: center;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 1px;
+}
+
+.error {
+    background-color: rgba(255, 0, 0, 0.158);
+    color: rgb(54, 0, 0);
+}
+
+.success {
+    background-color: rgba(21, 255, 0, 0.144);
+    color: rgb(0, 17, 0);
 }
