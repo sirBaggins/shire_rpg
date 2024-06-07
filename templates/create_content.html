@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+
+{% block title %}Games{% endblock %}
+
+{% block main %}
+
+<div class="games">
+    <div class="games__container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="{{ category }}">
+            <h5>{{ message }}</h5>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+
+    <div class="games__container">
+        <table class="generic_table">
+            <tr>
+                <th>
+                    ATTRIBUTES
+                </th>
+            </tr>
+            {% with inputs = data %}
+            {% for input in inputs %}
+            <tr>
+                <td>
+                    <input type="text" class="form-input" value="{{input.attribute}}: {{input.value}}" disabled>
+                </td>
+            </tr>
+            {% endfor %}
+            {% endwith %}
+        </table>
+    </div>
+
+    <div class="games__container">
+        <form action="/create" method="post">
+            <div>
+                {% with inputs = data %}
+                {% for input in inputs %}
+
+                {% if input.attribute == "name" %}
+                <input type="hidden" name="name" value="{{input.value}}">
+                {% endif %}
+
+                {% if input.attribute == "game" %}
+                <input type="hidden" name="game" value="{{input.value}}">
+                {% endif %}
+
+                {% endfor %}
+                {% endwith %}
+            </div>
+            <table class="generic_table">
+                <tr>
+                    <th>
+                        Insert new attribute
+                    </th>
+                    <th>
+                        Value
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" class="form-input" name="attribute" placeholder="attribute name" required>
+                    </td>
+                    <td>
+                        <input type="text" class="form-input" name="value" placeholder="attribute value" required>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <div>
+                <button type="submit" name="insert" value="insert" class="nav__btn register__btn">
+                    Insert</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<style>
+    .title-box {
+        background-color: whitesmoke;
+        padding: 0 8px;
+        border-radius: 8px;
+        width: fit-content;
+        font-size: larger;
+    }
+
+    .number-box {
+        padding: 0 8px;
+        background-color: rgb(184, 184, 184);
+    }
+
+    .generic_table {
+        background-color: #eee;
+        border: none;
+        border-radius: 8px;
+        border-collapse: collapse;
+    }
+
+    .generic_table th,
+    td {
+        padding: 8px;
+    }
+
+
+    .form-input {
+        margin: 5px;
+        padding: 8px;
+        border: none;
+        border-radius: 8px;
+        font-size: large;
+        width: 90%;
+    }
+</style>
+
+{% endblock %}

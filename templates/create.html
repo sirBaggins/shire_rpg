@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block title %}Games{% endblock %}
+
+{% block main %}
+
+<div class="games">
+    <div class="games__container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="{{ category }}">
+            <h5>{{ message }}</h5>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <form action="/create" method="post" id="form">
+
+            <table class="generic_table">
+                <tr>
+                    <th>
+                        BASIC INFO
+                    </th>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="text" class="form-input" name="char" placeholder="character name (required)"
+                            autocomplete="off" list="chars" required>
+                        <datalist id="chars">
+                            {% for option in data %}
+                            <option value="{{option.name}}">
+                                {% endfor %}
+                        </datalist>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <input type="text" class="form-input" name="game" placeholder="game (required)" list="games"
+                            autocomplete="off" required>
+                        <datalist id="games">
+                            {% for option in data %}
+                            <option value="{{option.game}}">
+                                {% endfor %}
+                        </datalist>
+
+
+
+
+                    </td>
+                </tr>
+
+                <td class="games__container">
+                    <button type="reset" name="clear">
+                        clear</button>
+                </td>
+                </tr>
+
+            </table>
+
+            <div class="games__container">
+                <div>
+
+                    <button type="submit" name="basic" value="basic" class="nav__btn register__btn">
+                        OPEN CHARACTER</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+{% endblock %}

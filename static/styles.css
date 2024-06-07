@@ -122,6 +122,7 @@ a {
     color: white;
 
     padding: 1rem;
+    border: none;
     border-radius: 1rem;
 
     text-transform: capitalize;
@@ -300,4 +301,110 @@ button:focus {
 .success {
     background-color: rgba(21, 255, 0, 0.144);
     color: rgb(0, 17, 0);
+}
+
+.games {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    min-height: 80vh;
+    max-height: fit-content;
+
+    background-color: rgba(0, 0, 0, 0.514);
+}
+
+.games__container {
+    min-width: 15rem;
+    width: fit-content%;
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.searchBar {
+    display: none;
+}
+
+#search_icon {
+    position: absolute;
+    margin-left: 8px;
+    margin-top: 8px;
+}
+
+#search {
+    padding: 10px 0 10px 40px;
+    margin: 0 0 1rem 0;
+    width: 100%;
+
+    font-size: large;
+
+}
+
+#myTable {
+    background-color: #eee;
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    font-size: 18px;
+}
+
+#myTable th,
+#myTable td {
+    text-align: left;
+    padding: 12px;
+}
+
+#myTable tr {
+    border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header,
+.tableTr:hover {
+    background-color: #ddd;
+}
+
+.table_setting {
+    background-color: #eee;
+    cursor: pointer;
+}
+
+.table_setting:hover {
+    background-color: rgb(175, 175, 175);
+}
+
+.title-box {
+    background-color: whitesmoke;
+    padding: 0 8px;
+    border-radius: 8px;
+    width: fit-content;
+    font-size: larger;
+}
+
+.number-box {
+    padding: 0 8px;
+    background-color: rgb(184, 184, 184);
+}
+
+.generic_table {
+    background-color: #eee;
+    border: none;
+    border-radius: 8px;
+    border-collapse: collapse;
+}
+
+.generic_table th,
+td {
+    padding: 8px;
+}
+
+
+.form-input {
+    margin: 5px;
+    padding: 8px;
+    border: none;
+    border-radius: 8px;
+    font-size: large;
+    width: 90%;
 }
