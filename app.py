@@ -1,3 +1,5 @@
+from os import urandom
+
 from cs50 import SQL
 from flask import Flask, flash, redirect, url_for, render_template, request, session
 from flask_session import Session
@@ -48,7 +50,8 @@ def register():
             return redirect(url_for("register"))
 
         password = generate_password_hash(password)
-        db.execute("INSERT INTO users (email, hash) VALUES (?, ?)", email, password)
+        session_id = str(urandom(64))
+        db.execute("INSERT INTO users (email, hash, session_id) VALUES (?, ?, ?)", email, password, session_id)
         if db.execute("SELECT * FROM users WHERE email = ?", email):
             flash("Successfully registered.", "success")
             return redirect(url_for("login"))
@@ -78,7 +81,9 @@ def login():
             flash("User not found", "error")
             return redirect(url_for("login"))    
         elif check_password_hash(query[0]["hash"], password):
-            session["user_id"] = query[0]["user_id"]
+            # Login ok
+            session["user_id"] = query[0]["session_id"]
+            session["id"] = query[0]["user_id"]
             return redirect(url_for("index"))
         else:
             flash("Password didn't fit well...", "error")
@@ -89,3 +94,21 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for("index"))
+
+
+@app.route("/settings")
+@login_required
+def settings():
+    return render_template("settings.html")
+
+
+@app.route("/games", methods=["GET", "POST"])
+@login_required
+def games():
+    if request.method == "GET":
+        id = session.get("id")
+        games = db.execute("SELECT name, game, id FROM sheets WHERE user_id = ?", id)
+        return render_template("games.html", games=games)
+    else:
+        character = request.form.get("characters")
+        return str(character)

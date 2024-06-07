@@ -40,28 +40,44 @@
     <!-- navbar local -->
     <header>
         <div class="header__content medfont">
-            <i>
-                <a href=" /" class="logo">
-                    <img src="../static/bg/logo.png" alt="logo" class="logo__img">
-                </a>
-            </i>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="/games" class="nav__btn">My characters</a>
-                    </li>
-                </ul>
-            </nav>
-            <nav>
-                <ul>
-                    <li>
-                        <a href="/profile" class="nav__btn">profile</a>
-                    </li>
-                    <li>
-                        <a href="/logout" class="nav__btn logout__btn">log out</a>
-                    </li>
-                </ul>
-            </nav>
+            <div class="nav-grid">
+                <i>
+                    <a href=" /" class="logo">
+                        <img src="../static/bg/logo.png" alt="logo" class="logo__img">
+                    </a>
+                </i>
+            </div>
+            <div class="nav-grid">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="/games" class="nav__btn">My sheets</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="nav-grid">
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="/settings" class="nav__btn">Settings</a>
+                        </li>
+                        <li>
+                            <a href="/logout" class="nav__btn logout__btn">log out</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="alt__header__content">
+            <div>
+                <a href="javascript:void(0);" class="icon" onclick="alt__button()">&#9776</a>
+            </div>
+            <div class="dropdown__content" id="dropdown__content">
+                <a href="/games" style="color: rgb(20, 128, 20);">My sheets</a>
+                <a href="/settings" style="color: rgb(117, 128, 20);">settings</a>
+                <a href="/logout" style="color: rgb(100, 10, 10);">logout</a>
+            </div>
         </div>
     </header>
     {% endif %}
@@ -72,5 +88,16 @@
     </main>
 
 </body>
+
+<script>
+    function alt__button() {
+        let _ = document.getElementById("dropdown__content");
+        if (_.className === "dropdown__content") {
+            _.className += "_show";
+        } else {
+            _.className = "dropdown__content";
+        }
+    } 
+</script>
 
 </html>

@@ -31,6 +31,7 @@
                 Sheet attributes are fixed on read mode, but some might be changeble.
             </p>
 
+            {% if not session["user_id"] %}
             <h3 class="yellow-shadow center-text">Log in to access your sheets!</h3>
             <br>
             <div class="center-text">
@@ -38,6 +39,7 @@
 
                 <a href="/register" class="nav__btn register__btn">register</a>
             </div>
+            {% endif %}
             <br>
         </div>
 

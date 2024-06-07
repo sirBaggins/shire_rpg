@@ -1,5 +1,6 @@
 from re import compile, fullmatch
 
+from cs50 import SQL
 from flask import redirect, request, session, redirect
 from functools import wraps
 
