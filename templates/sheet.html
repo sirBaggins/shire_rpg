@@ -4,11 +4,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SIMPLE SHEET</title>
 </head>
 
 <body>
 
+    <article class="flex">
+
+        <div class="flex-inside">
+            <table class="generic_table">
+                <tr>
+                    <th>
+                        BASIC INFO
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        NAME
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {% for data in dataset %}
+                        {% if data.attribute == "name" %}
+                        {{data.attribute}}
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        GAME
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        {% for data in dataset %}
+                        {% if data.attribute == "game" %}
+                        {{data.attribute}}
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="flex-inside">
+
+            <table class="generic_table">
+                <tr>
+                    <th>
+                        attribute
+                    </th>
+                    <th>
+                        value
+                    </th>
+                </tr>
+                {% for data in dataset %}
+                {% if data.attribute != "name" and data.attribute != "game" %}
+                <tr>
+                    <td>
+                        {{data.attribute}}
+                    </td>
+                    <td>
+                        {{data.value}}
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </table>
+
+        </div>
+
+    </article>
+
 </body>
+
+<style>
+    body {
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    .flex {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .flex-inside {
+        align-self: center;
+    }
+
+    .generic_table {
+        background-color: #eee;
+        border-radius: 8px;
+        border-collapse: collapse;
+        width: max-content;
+        margin: 1rem;
+
+    }
+
+    .generic_table th,
+    td {
+        padding: 8px;
+        border: black 1px solid;
+    }
+</style>
+
 
 </html>

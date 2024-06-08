@@ -4,119 +4,142 @@
 
 {% block main %}
 
-<div class="games">
-    <div class="games__container">
-
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="{{ category }}">
-            <h5>{{ message }}</h5>
-            {% endfor %}
-        </div>
-        {% endif %}
-        {% endwith %}
+<div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="flashed {{ category }}">
+        <h5>{{ message }}</h5>
+        {% endfor %}
     </div>
-
-    <div class="games__container">
-        <table class="generic_table">
-            <tr>
-                <th>
-                    ATTRIBUTES
-                </th>
-            </tr>
-            {% with inputs = data %}
-            {% for input in inputs %}
-            <tr>
-                <td>
-                    <input type="text" class="form-input" value="{{input.attribute}}: {{input.value}}" disabled>
-                </td>
-            </tr>
-            {% endfor %}
-            {% endwith %}
-        </table>
-    </div>
-
-    <div class="games__container">
-        <form action="/create" method="post">
-            <div>
-                {% with inputs = data %}
-                {% for input in inputs %}
-
-                {% if input.attribute == "name" %}
-                <input type="hidden" name="name" value="{{input.value}}">
-                {% endif %}
-
-                {% if input.attribute == "game" %}
-                <input type="hidden" name="game" value="{{input.value}}">
-                {% endif %}
-
-                {% endfor %}
-                {% endwith %}
-            </div>
-            <table class="generic_table">
-                <tr>
-                    <th>
-                        Insert new attribute
-                    </th>
-                    <th>
-                        Value
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="text" class="form-input" name="attribute" placeholder="attribute name" required>
-                    </td>
-                    <td>
-                        <input type="text" class="form-input" name="value" placeholder="attribute value" required>
-                    </td>
-                </tr>
-            </table>
-            <br>
-            <div>
-                <button type="submit" name="insert" value="insert" class="nav__btn register__btn">
-                    Insert</button>
-            </div>
-        </form>
-    </div>
-
+    {% endif %}
+    {% endwith %}
 </div>
 
-<style>
-    .title-box {
-        background-color: whitesmoke;
-        padding: 0 8px;
-        border-radius: 8px;
-        width: fit-content;
-        font-size: larger;
+<article class="create">
+
+    <table class="create_table">
+        <tr>
+            <th>
+                BASIC INFO:
+            </th>
+        </tr>
+
+        <!-- DISPLAY NAME AND GAME -->
+        {% for value in data %}
+        {% if value.attribute == "name" %}
+        <tr>
+            <td>
+                {{ value.attribute|upper() }}
+            </td>
+        </tr>
+        {% endif %}
+        {% if value.attribute == "game" %}
+        <tr>
+            <td>
+                {{ value.attribute|upper() }}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+    <br>
+    <table class="create_table">
+        <tr>
+            <th>
+                ATTRIBUTES:
+            </th>
+            <th>
+                VALUE:
+            </th>
+        </tr>
+
+        {% for value in data %}
+        {% if value.attribute != "name" and value.attribute != "game" %}
+        <tr>
+            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')">
+                {{ value.attribute|upper() }}
+            </td>
+            <td>
+                {{ value.value }}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+
+    <form action="/create1" method="post">
+        <table class="generic_table">
+            <tr>
+                <th>Insert new attribute</th>
+                <th>Value</th>
+            </tr>
+
+            <tr>
+                <input type="text" name="sheet_id" value="{{data[0].sheet_id}}" hidden>
+                <td><input type="text" name="attribute" placeholder="attribute name" class="form-input" id="attribute"
+                        required>
+                </td>
+                <td><input type="text" name="value" placeholder="attribute value" class="form-input">
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">
+                    <button type="reset" class="nav__btn register__btn" id="clear"
+                        onclick="cancelDelete()">clear</button>
+                </td>
+                <td style="text-align: center;">
+                    <button type="submit" name="btn" value="insert" class="nav__btn login__btn"
+                        id="submit">insert</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+
+    <div>
+        <button type="button" class="delete_all" onclick="deleteMe('{{data[0].sheet_id}}')"><strong>delete this
+                sheet</strong></button>
+    </div>
+
+</article>
+
+
+<script>
+    function upToDelete(input) {
+        document.getElementById("attribute").value = input;
+
+        let submit = document.getElementById("submit");
+        let clear = document.getElementById("clear");
+
+        submit.value = "remove";
+        submit.innerHTML = "remove";
+        submit.className = "nav__btn logout__btn";
+
+        clear.innerHTML = "cancel";
+        clear.className = "nav__btn login__btn";
     }
 
-    .number-box {
-        padding: 0 8px;
-        background-color: rgb(184, 184, 184);
+    function cancelDelete() {
+        let submit = document.getElementById("submit");
+        let clear = document.getElementById("clear");
+
+        submit.value = "insert";
+        submit.innerHTML = "insert";
+        submit.className = "nav__btn login__btn";
+
+        clear.innerHTML = "clear";
+        clear.className = "nav__btn register__btn";
     }
 
-    .generic_table {
-        background-color: #eee;
-        border: none;
-        border-radius: 8px;
-        border-collapse: collapse;
+    function deleteMe(sheet) {
+        let text;
+        if (confirm("ARE YOU SURE? CAN'T BE UNDONE!")) {
+            return location.href = '/delete_sheet?id=' + sheet;
+        }
     }
-
-    .generic_table th,
-    td {
-        padding: 8px;
-    }
+</script>
 
 
-    .form-input {
-        margin: 5px;
-        padding: 8px;
-        border: none;
-        border-radius: 8px;
-        font-size: large;
-        width: 90%;
-    }
-</style>
 
 {% endblock %}

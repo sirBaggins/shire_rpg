@@ -28,28 +28,15 @@
 
                 <tr>
                     <td>
-                        <input type="text" class="form-input" name="char" placeholder="character name (required)"
-                            autocomplete="off" list="chars" required>
-                        <datalist id="chars">
-                            {% for option in data %}
-                            <option value="{{option.name}}">
-                                {% endfor %}
-                        </datalist>
+                        <input type="text" class="form-input" name="name" placeholder="character name (required)"
+                            autocomplete="off" required>
                     </td>
                 </tr>
 
                 <tr>
                     <td>
-                        <input type="text" class="form-input" name="game" placeholder="game (required)" list="games"
+                        <input type="text" class="form-input" name="game" placeholder="game (required)"
                             autocomplete="off" required>
-                        <datalist id="games">
-                            {% for option in data %}
-                            <option value="{{option.game}}">
-                                {% endfor %}
-                        </datalist>
-
-
-
 
                     </td>
                 </tr>
@@ -65,8 +52,8 @@
             <div class="games__container">
                 <div>
 
-                    <button type="submit" name="basic" value="basic" class="nav__btn register__btn">
-                        OPEN CHARACTER</button>
+                    <button type="submit" name="btn" value="start" class="nav__btn register__btn">
+                        START CREATION</button>
                 </div>
             </div>
 
