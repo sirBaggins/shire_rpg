@@ -118,58 +118,115 @@ def games():
 @login_required
 def create():
     if request.method == "GET":
-        
-        data = db.execute("SELECT name, game FROM sheets WHERE user_id = ?", session["id"])   
-        return render_template("create.html", data=data)
+        return render_template("create.html")
     else:
-        if request.form.get("basic") == "basic":    
-            char = request.form.get("char")
+        if request.form.get("btn") == "start":
+            name = request.form.get("name")
             game = request.form.get("game")
-
-            if not char or not game:
-                flash("Fields must not be empty", "error")
+            if not name or not game:
+                flash("fields cannot be empty", "error")
                 return redirect(url_for("create"))
-            
-            working_sheet = db.execute("SELECT id FROM sheets WHERE name = ? AND game = ? AND user_id = ?", char, game, session["id"])
-            if not working_sheet:
-                    # Insert into sheets
-                    db.execute("INSERT INTO sheets (user_id, name, game) VALUES (?, ?, ?)", session["id"], char, game)
-                    working_sheet = db.execute("SELECT id FROM sheets WHERE name = ? AND game = ? AND user_id = ?", char, game, session["id"])
-                    working_sheet = working_sheet[0]["id"]
-                    # Insert into game_data
-                    db.execute("INSERT INTO game_data (sheet_id, attribute, value) VALUES (?, ?, ?)", working_sheet, "name", char)
-                    db.execute("INSERT INTO game_data (sheet_id, attribute, value) VALUES (?, ?, ?)", working_sheet, "game", game)
 
-                    data = db.execute("SELECT * FROM game_data WHERE sheet_id = ?", working_sheet["id"])
-                    return render_template("create_content.html", data=data)
+            query = db.execute("SELECT id FROM sheets WHERE name = ? AND game = ? AND user_id = ?", name, game, session["id"])
+            if query:
+                flash("Character already exists", "error")
+                return redirect(url_for("create"))
             else:
-                    data = db.execute("SELECT * FROM game_data WHERE sheet_id = ?", working_sheet[0]["id"])
-                    return render_template("create_content.html", data=data)
-        
-        elif request.form.get("insert") == "insert":
-            char = request.form.get("name")
-            game = request.form.get("game")
-            attribute = request.form.get("attribute")
-            value = request.form.get("value")
-
-            if not char or not game or not attribute or not value:
-                flash("Fields must not be empty", "error")
-                return redirect(url_for("create"))
-
-            working_sheet = db.execute("SELECT id FROM sheets WHERE name = ? AND game = ? AND user_id = ?", char, game, session["id"])
-            db.execute("INSERT INTO game_data (sheet_id, attribute, value) VALUES (?, ?, ?)", working_sheet[0]["id"], attribute, value)
-
-            data = db.execute("SELECT * FROM game_data WHERE sheet_id = ?", working_sheet[0]["id"])
-            return render_template("create_content.html", data=data)
+                db.execute("INSERT INTO sheets (user_id, name, game) VALUES (?, ?, ?)", session["id"], name, game)
+                query = db.execute("SELECT * FROM sheets WHERE user_id = ? AND name = ? AND game = ?", session["id"], name, game)
+                # Insert into game_data
+                db.execute("INSERT INTO game_data (sheet_id, attribute, value) VALUES (?, ?, ?)", query[0]["id"], "name", name)
+                db.execute("INSERT INTO game_data (sheet_id, attribute, value) VALUES (?, ?, ?)", query[0]["id"], "game", game)
+                return redirect(url_for("games"))
         else:
-            return "unsupported request"
+            return redirect(url_for("create"))    
 
-
-
-@app.route("/sheet/edit/<id>", methods=["GET", "POST"])
+@app.route("/create1", methods=["GET", "POST"])
 @login_required
-def edit(id):
+def create1():
+    id = request.args.get("id")
+
     if request.method == "GET":
-        return render_template("sheet.html")
+        if not id:
+            return redirect(url_for("games"))
+
+        else:
+            test = db.execute("SELECT user_id FROM sheets WHERE id = ?", id)
+            if not test:
+                return redirect(url_for("games"))
+            else:
+                if test[0]["user_id"] == session["id"]:
+                    data = db.execute("SELECT * FROM game_data WHERE sheet_id = ?", id)
+                    return render_template("create_content.html", data=data)
+                else:
+                    return redirect(url_for("games"))
     else:
-        return "post"
+        if request.form.get("btn") == "insert":
+                attribute = request.form.get("attribute")
+                value = request.form.get("value")
+                id = request.form.get("sheet_id")
+                if not attribute or not value or not id:
+                    flash("fields cannot be empty", "error")
+                    return redirect(url_for("games"))
+                
+                test = db.execute("SELECT user_id FROM sheets WHERE id = ?", id)
+                if test[0]["user_id"] == session["id"]:
+                    if not db.execute("SELECT 1 FROM game_data WHERE sheet_id = ? AND attribute = ?", id, attribute):
+                        db.execute("INSERT INTO game_data (sheet_id, attribute, value) VALUES (?, ?, ?)", id, attribute, value)
+                        return redirect(url_for("create1") + "?id=" + id)
+                    else:
+                        db.execute("UPDATE game_data SET value=? WHERE sheet_id=? AND attribute=?", value, id, attribute)
+                        return redirect(url_for("create1") + "?id=" + id)
+                else:
+                    flash("Forbbiden", "error")
+                    return redirect(url_for("games"))
+
+        elif request.form.get("btn") == "remove":
+            attribute = request.form.get("attribute")
+            id = request.form.get("sheet_id")
+
+            if not attribute or not id:
+                flash("attribute cannot be empty", "error")
+                redirect(url_for("games"))
+
+            test = db.execute("SELECT user_id FROM sheets WHERE id = ?", id)
+            if test[0]["user_id"] == session["id"]:
+                if db.execute("SELECT 1 FROM game_data WHERE sheet_id = ? AND attribute = ?", id, attribute):
+                    db.execute("DELETE FROM game_data WHERE sheet_id = ? AND attribute = ?", id, attribute)
+                    return redirect(url_for("create1") + "?id=" + id) # type: ignore
+                else:
+                    return redirect(url_for("create1") + "?id=" + id) # type: ignore
+            else:
+                return redirect(url_for("games"))
+
+        else:
+            flash("wrong post", "error")
+            return redirect(url_for("create1"))
+
+
+@app.route("/delete_sheet", methods=["GET", "POST"])
+@login_required
+def delete_sheet():
+    id = request.args.get("id")
+    if not id:
+        return redirect(url_for("games"))
+
+    else:
+        if db.execute("SELECT 1 FROM sheets WHERE id = ? AND user_id = ?", id, session["id"]):
+            db.execute("DELETE FROM sheets WHERE id = ? AND user_id = ?", id, session["id"])
+            db.execute("DELETE FROM game_data WHERE sheet_id = ?", id)
+            return redirect(url_for("games"))
+        else:
+            return redirect(url_for("games"))
+
+
+@app.route("/sheet/<id>")
+def render_sheet(id):
+    if not id:
+        return redirect(url_for("games"))
+    else:
+        if db.execute("SELECT 1 FROM sheets WHERE id = ? AND user_id = ?", id, session["id"]):
+            query = db.execute("SELECT * FROM game_data WHERE sheet_id = ?", id)
+            return render_template("sheet.html", dataset=query)
+        else:
+            return redirect(url_for("games"))
