@@ -1,3 +1,7 @@
+## :exclamation: DISCLAIMER: :exclamation:
+#### :page_with_curl: This was my first project and was designed for CS50x's final project :page_with_curl: 
+####  Uses Flask for back-end, SQLite3 for database and vanilla HTML, CSS and JS for the front-end.
+
 # Shire_RPG
 
 Welcome to **Shire_RPG**, a comprehensive web application designed for RPG enthusiasts. With Shire_RPG, you can create, edit, and manage RPG character sheets for games like Vampire: The Masquerade and Dungeons & Dragons. This application also includes features such as dice rolling and campaign recall storage, all available for free!
