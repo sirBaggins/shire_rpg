@@ -95,6 +95,11 @@ header {
     .alt__header__content {
         display: flex;
     }
+
+    .delete_all {
+        margin: 1rem;
+        bottom: 0;
+    }
 }
 
 .nav-grid {
@@ -448,18 +453,18 @@ td {
 .create {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
     flex-direction: column;
-
+    gap: 2rem;
     background-color: rgba(0, 0, 0, 0.514);
-    height: 80vh;
+    height: 65vh;
 }
 
 .create_table {
     background-color: #eee;
     border-collapse: collapse;
     border: 1px solid #eee;
-    width: 100%;
+    min-width: 20rem;
+    max-width: 100%;
     font-size: 18px;
     text-align: center;
 }
@@ -474,14 +479,30 @@ td {
 }
 
 .delete_all {
-    color: yellow;
-    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    background-color: rgb(44, 0, 0);
     border: none;
+    border-radius: 4px;
     margin: 0;
     cursor: pointer;
+
+    margin-top: 1rem;
 }
 
 .delete_all:hover {
     /* color: white; */
     background-color: red;
+}
+
+.genesis {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.scroll_lock {
+    overflow-y: scroll;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
 }

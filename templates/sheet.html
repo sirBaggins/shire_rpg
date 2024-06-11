@@ -4,112 +4,294 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIMPLE SHEET</title>
+    <title>RPG Character Sheet</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #eadbcb;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #ffe1c2;
+            box-shadow: 0 0 40px rgb(0, 0, 0);
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            margin: 0 0 20px;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+
+        .input-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        .stat-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f0f0f0;
+        }
+
+        .grid-flow {
+            display: grid;
+            grid-auto-flow: row;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+        }
+
+        .placeholder-black::placeholder {
+            color: black;
+        }
+
+        .health-bar-container {
+            width: 100%;
+            /* max-width: 500px; */
+            background-color: #610000;
+            border-radius: 25px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: none;
+        }
+
+        .health-bar {
+            height: 1rem;
+            width: 80%;
+            background-color: #004704;
+            transition: width 0.5s ease;
+        }
+
+        .btn {
+            border-radius: 8px;
+            border: none;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .numerator {
+            position: absolute;
+            top: 8rem;
+
+            width: 3rem;
+            height: 2rem;
+            font-size: large;
+            border: none;
+            font-weight: bolder;
+            color: black;
+            background-color: rgba(0, 0, 0, 0);
+
+        }
+    </style>
 </head>
 
 <body>
+    <div class="container">
+        <h1>Character Sheet</h1>
 
-    <article class="flex">
+        <!-- health -->
+        <div class="section">
+            <h2>HEALTH</h2>
+            <div class="bar-container">
 
-        <div class="flex-inside">
-            <table class="generic_table">
-                <tr>
-                    <th>
-                        BASIC INFO
-                    </th>
-                </tr>
-                <tr>
-                    <td>
-                        NAME
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        {% for data in dataset %}
-                        {% if data.attribute == "name" %}
-                        {{data.attribute}}
-                        {% endif %}
-                        {% endfor %}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        GAME
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        {% for data in dataset %}
-                        {% if data.attribute == "game" %}
-                        {{data.attribute}}
-                        {% endif %}
-                        {% endfor %}
-                    </td>
-                </tr>
-            </table>
-        </div>
+                {% for value in data %}
+                {% if value.type == "health" %}
 
-        <div class="flex-inside">
+                <input type="text" class="numerator" value="" id="numerator" disabled>
 
-            <table class="generic_table">
-                <tr>
-                    <th>
-                        attribute
-                    </th>
-                    <th>
-                        value
-                    </th>
-                </tr>
-                {% for data in dataset %}
-                {% if data.attribute != "name" and data.attribute != "game" %}
-                <tr>
-                    <td>
-                        {{data.attribute}}
-                    </td>
-                    <td>
-                        {{data.value}}
-                    </td>
-                </tr>
+                <div class="health-bar-container">
+                    <div id="health-bar" class="health-bar"></div>
+                </div>
+                <div class="controls">
+                    <button onclick="decreaseHealth(1)" class="btn">Decrease 1</button>
+                    <button onclick="increaseHealth(1)" class="btn">Increase 1</button>
+                </div>
+
+
+                <script>
+                    let currentHealth = "{{ value.value }}";
+                    const maxHealth = "{{ value.value }}";
+
+                    function updateHealthBar() {
+                        const healthBar = document.getElementById('health-bar');
+                        const numerator = document.getElementById("numerator");
+                        healthBar.style.width = `${(currentHealth / maxHealth) * 100}%`;
+                        numerator.value = currentHealth;
+                    }
+
+                    function increaseHealth(amount) {
+                        currentHealth = Math.min(maxHealth, currentHealth + amount);
+                        updateHealthBar();
+                    }
+
+                    function decreaseHealth(amount) {
+                        currentHealth = Math.max(0, currentHealth - amount);
+                        updateHealthBar();
+                    }
+
+                    // Initialize the health bar
+                    updateHealthBar();
+                </script>
                 {% endif %}
                 {% endfor %}
-            </table>
+
+
+            </div>
 
         </div>
 
-    </article>
+        <!-- basic -->
+        <div class="section">
+            <h2>Basic Info</h2>
 
+            {% for value in data %}
+            {% if value.type == "basic" %}
+            <div class="input-group">
+
+                <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
+                <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
+
+            </div>
+            {% endif %}
+            {% endfor %}
+
+        </div>
+
+        <div class="section">
+            <!-- attributes -->
+            <h2>Attributes</h2>
+            <div class="grid-flow">
+
+                {% for value in data %}
+                {% if value.type == "attribute" %}
+                <div class="input-group">
+
+                    <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
+                    <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
+
+                </div>
+                {% endif %}
+                {% endfor %}
+
+
+            </div>
+
+            <!-- skills -->
+            <div class="section">
+                <h2>Skills</h2>
+
+                <div class="grid-flow">
+
+                    {% for value in data %}
+                    {% if value.type == "skill" %}
+                    <div class="input-group">
+
+                        <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
+                        <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
+
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+
+
+            </div>
+
+            <!-- magic -->
+            <div class="section">
+                <h2>Magic</h2>
+
+                {% for value in data %}
+                {% if value.type == "magic" %}
+                <div class="input-group">
+
+                    <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
+                    <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+            <!-- other -->
+            <div class="section">
+                <h2>Other</h2>
+
+                {% for value in data %}
+                {% if value.type not in ["basic", "attribute", "skill", "magic", "health", "notes"] %}
+                <div class="input-group">
+
+                    <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
+                    <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
+
+                </div>
+
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+
+            <!-- notes -->
+            <div class="section">
+                <h2>Notes</h2>
+                <div class="input-group">
+                    {% for value in data %}
+                    {% if value.type == "notes" %}
+                    <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
+                    <textarea id="{{ value.attribute }}" rows="5" placeholder="{{ value.value }}"
+                        class="placeholder-black" disabled></textarea>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 </body>
-
-<style>
-    body {
-        margin: 0;
-        box-sizing: border-box;
-    }
-
-    .flex {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .flex-inside {
-        align-self: center;
-    }
-
-    .generic_table {
-        background-color: #eee;
-        border-radius: 8px;
-        border-collapse: collapse;
-        width: max-content;
-        margin: 1rem;
-
-    }
-
-    .generic_table th,
-    td {
-        padding: 8px;
-        border: black 1px solid;
-    }
-</style>
-
 
 </html>

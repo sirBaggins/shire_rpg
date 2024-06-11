@@ -6,6 +6,7 @@ from flask_session import Session
 from helpers import login_required, validate_credential
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
 # Configure application
 app = Flask(__name__)
 app.secret_key = b"frango_frito_151413"
@@ -15,6 +16,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config.from_object(__name__)
 Session(app)
+
 
 # Database link
 db = SQL("sqlite:///shire.db")
@@ -135,8 +137,8 @@ def create():
                 db.execute("INSERT INTO sheets (user_id, name, game) VALUES (?, ?, ?)", session["id"], name, game)
                 query = db.execute("SELECT * FROM sheets WHERE user_id = ? AND name = ? AND game = ?", session["id"], name, game)
                 # Insert into game_data
-                db.execute("INSERT INTO game_data (sheet_id, attribute, value) VALUES (?, ?, ?)", query[0]["id"], "name", name)
-                db.execute("INSERT INTO game_data (sheet_id, attribute, value) VALUES (?, ?, ?)", query[0]["id"], "game", game)
+                db.execute("INSERT INTO game_data (sheet_id, attribute, value, type) VALUES (?, ?, ?, ?)", query[0]["id"], "name", name, "basic")
+                db.execute("INSERT INTO game_data (sheet_id, attribute, value, type) VALUES (?, ?, ?, ?)", query[0]["id"], "game", game, "basic")
                 return redirect(url_for("games"))
         else:
             return redirect(url_for("create"))    
@@ -155,24 +157,27 @@ def create1():
             if not test:
                 return redirect(url_for("games"))
             else:
-                if test[0]["user_id"] == session["id"]:
+                if not test[0]["user_id"] == session["id"]:
+                    return redirect(url_for("games"))
+                else:
                     data = db.execute("SELECT * FROM game_data WHERE sheet_id = ?", id)
                     return render_template("create_content.html", data=data)
-                else:
-                    return redirect(url_for("games"))
+                    
     else:
         if request.form.get("btn") == "insert":
                 attribute = request.form.get("attribute")
                 value = request.form.get("value")
                 id = request.form.get("sheet_id")
-                if not attribute or not value or not id:
+                _type = request.form.get("type")
+
+                if not attribute or not value or not id or not _type:
                     flash("fields cannot be empty", "error")
                     return redirect(url_for("games"))
                 
                 test = db.execute("SELECT user_id FROM sheets WHERE id = ?", id)
                 if test[0]["user_id"] == session["id"]:
                     if not db.execute("SELECT 1 FROM game_data WHERE sheet_id = ? AND attribute = ?", id, attribute):
-                        db.execute("INSERT INTO game_data (sheet_id, attribute, value) VALUES (?, ?, ?)", id, attribute, value)
+                        db.execute("INSERT INTO game_data (sheet_id, attribute, value, type) VALUES (?, ?, ?, ?)", id, attribute, value, _type)
                         return redirect(url_for("create1") + "?id=" + id)
                     else:
                         db.execute("UPDATE game_data SET value=? WHERE sheet_id=? AND attribute=?", value, id, attribute)
@@ -227,6 +232,6 @@ def render_sheet(id):
     else:
         if db.execute("SELECT 1 FROM sheets WHERE id = ? AND user_id = ?", id, session["id"]):
             query = db.execute("SELECT * FROM game_data WHERE sheet_id = ?", id)
-            return render_template("sheet.html", dataset=query)
+            return render_template("sheet.html", data=query)
         else:
             return redirect(url_for("games"))

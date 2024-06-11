@@ -16,8 +16,9 @@
     {% endwith %}
 </div>
 
-<article class="create">
+<article class="create scroll_lock">
 
+    <!-- DISPLAY NAME AND GAME -->
     <table class="create_table">
         <tr>
             <th>
@@ -25,26 +26,18 @@
             </th>
         </tr>
 
-        <!-- DISPLAY NAME AND GAME -->
         {% for value in data %}
-        {% if value.attribute == "name" %}
+        {% if value.type == "basic" %}
         <tr>
             <td>
-                {{ value.attribute|upper() }}
-            </td>
-        </tr>
-        {% endif %}
-        {% if value.attribute == "game" %}
-        <tr>
-            <td>
-                {{ value.attribute|upper() }}
+                {{ value.value|upper() }} ({{ value.attribute }})
             </td>
         </tr>
         {% endif %}
         {% endfor %}
     </table>
-    <br>
-    <table class="create_table">
+    <!-- attributes -->
+    <table class="generic_table">
         <tr>
             <th>
                 ATTRIBUTES:
@@ -55,12 +48,12 @@
         </tr>
 
         {% for value in data %}
-        {% if value.attribute != "name" and value.attribute != "game" %}
+        {% if value.type == "attribute" %}
         <tr>
-            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')">
+            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
                 {{ value.attribute|upper() }}
             </td>
-            <td>
+            <td style="text-align: center;">
                 {{ value.value }}
             </td>
         </tr>
@@ -68,6 +61,140 @@
         {% endfor %}
     </table>
 
+    <!-- skills -->
+    <table class="generic_table">
+        <tr>
+            <th>
+                SKILLS:
+            </th>
+            <th>
+                VALUE:
+            </th>
+        </tr>
+
+        {% for value in data %}
+        {% if value.type == "skill" %}
+        <tr>
+            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
+                {{ value.attribute|upper() }}
+            </td>
+            <td style="text-align: center;">
+                {{ value.value }}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+
+    <!-- magic -->
+    <table class="generic_table">
+        <tr>
+            <th>
+                MAGIC:
+            </th>
+            <th>
+                VALUE:
+            </th>
+        </tr>
+
+        {% for value in data %}
+        {% if value.type == "magic" %}
+        <tr>
+            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
+                {{ value.attribute|upper() }}
+            </td>
+            <td style="text-align: center;">
+                {{ value.value }}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+
+    <!-- other -->
+    <table class="generic_table">
+        <tr>
+            <th>
+                OTHER:
+            </th>
+            <th>
+                VALUE:
+            </th>
+            <th>
+                TYPE:
+            </th>
+        </tr>
+
+        {% for value in data %}
+        {% if value.type not in ["basic", "skill", "magic", "attribute", "notes", "health"] %}
+        <tr>
+            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
+                {{ value.attribute|upper() }}
+            </td>
+            <td style="text-align: center;">
+                {{ value.value }}
+            </td>
+            <td style="text-align: center;">
+                {{ value.type }}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+
+    <!-- health -->
+    <table class="generic_table">
+        <tr>
+            <th>
+                HEALTH:
+            </th>
+            <th>
+                VALUE:
+            </th>
+        </tr>
+
+        {% for value in data %}
+        {% if value.type == "health" %}
+        <tr>
+            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
+                {{ value.attribute|upper() }}
+            </td>
+            <td style="text-align: center;">
+                {{ value.value }}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+
+    <!-- notes -->
+    <table class="generic_table">
+        <tr>
+            <th>
+                NOTES:
+            </th>
+            <th>
+                VALUE:
+            </th>
+        </tr>
+
+        {% for value in data %}
+        {% if value.type == "notes" %}
+        <tr>
+            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
+                {{ value.attribute|upper() }}
+            </td>
+            <td style="text-align: center;">
+                {{ value.value }}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+
+</article>
+
+<div class="genesis">
     <form action="/create1" method="post">
         <table class="generic_table">
             <tr>
@@ -77,10 +204,25 @@
 
             <tr>
                 <input type="text" name="sheet_id" value="{{data[0].sheet_id}}" hidden>
-                <td><input type="text" name="attribute" placeholder="attribute name" class="form-input" id="attribute"
-                        required>
+                <td>
+                    <input type="text" name="attribute" placeholder="attribute name" class="form-input" id="attribute"
+                        required autocomplete="off" autofocus>
                 </td>
-                <td><input type="text" name="value" placeholder="attribute value" class="form-input">
+                <td>
+                    <input type="text" name="value" placeholder="attribute value" class="form-input" id="valuer"
+                        autocomplete="off" required>
+                </td>
+                <td>
+                    <select name="type" id="type" class="form-input" style="background-color: rgb(255, 255, 255);">
+                        <option value="skill">Skill</option>
+                        <option value="attribute">Attribute</option>
+                        <option value="magic">Magic</option>
+                        <option value="basic">Basic Info</option>
+                        <option value="health">Health</option>
+                        <option value="notes">Notes</option>
+                        <option value="other" id="other">Other</option>
+
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -96,13 +238,11 @@
         </table>
     </form>
 
-
     <div>
         <button type="button" class="delete_all" onclick="deleteMe('{{data[0].sheet_id}}')"><strong>delete this
                 sheet</strong></button>
     </div>
-
-</article>
+</div>
 
 
 <script>
@@ -111,6 +251,7 @@
 
         let submit = document.getElementById("submit");
         let clear = document.getElementById("clear");
+        let required_valuer = document.getElementById("valuer");
 
         submit.value = "remove";
         submit.innerHTML = "remove";
@@ -118,11 +259,20 @@
 
         clear.innerHTML = "cancel";
         clear.className = "nav__btn login__btn";
+
+        required_valuer.required = false;
+        required_valuer.disabled = true;
     }
 
     function cancelDelete() {
         let submit = document.getElementById("submit");
         let clear = document.getElementById("clear");
+        let otherElement = document.getElementById("other");
+        let required_valuer = document.getElementById("valuer");
+
+
+        otherElement.innerText = "other";
+        otherElement.value = "other";
 
         submit.value = "insert";
         submit.innerHTML = "insert";
@@ -130,6 +280,9 @@
 
         clear.innerHTML = "clear";
         clear.className = "nav__btn register__btn";
+
+        required_valuer.required = true;
+        required_valuer.disabled = false;
     }
 
     function deleteMe(sheet) {
@@ -138,8 +291,19 @@
             return location.href = '/delete_sheet?id=' + sheet;
         }
     }
-</script>
 
+    document.getElementById("type").addEventListener("change", (other) => {
+        let option = event.target.value;
+        let otherElement = document.getElementById("other")
+        if (option === "other") {
+            let opt = prompt("new attribute", "other");
+            otherElement.innerText = opt;
+            otherElement.value = opt;
+        }
+        console.log(option)
+    })
+
+</script>
 
 
 {% endblock %}
