@@ -1,3 +1,10 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v8.4.14,
+* Autoprefixer: v10.4.7
+* Browsers: last 4 version
+*/
+
 .medfont {
     font-family: MedievalSharp, cursive;
     font-style: normal;
@@ -6,6 +13,7 @@
 body {
     margin: 0;
     padding: 0;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
@@ -33,8 +41,13 @@ header {
 
 .header__content {
     height: 6rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -ms-flex-pack: distribute;
     justify-content: space-around;
     width: 100%;
     margin: 0 1rem;
@@ -48,7 +61,11 @@ header {
 
 .alt__header__content {
     display: none;
+    height: -webkit-max-content;
+    height: -moz-max-content;
     height: max-content;
+    -webkit-box-pack: left;
+    -ms-flex-pack: left;
     justify-content: left;
 
 }
@@ -77,6 +94,8 @@ header {
 
 .alt__button {
     width: 100%;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0);
     border: none;
@@ -84,6 +103,7 @@ header {
 
 #alt__button:focus {
     outline: none;
+    -webkit-box-shadow: none;
     box-shadow: none;
 }
 
@@ -93,6 +113,8 @@ header {
     }
 
     .alt__header__content {
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
     }
 
@@ -178,12 +200,14 @@ a {
 
 #bg3 {
     z-index: -7;
+    -webkit-filter: blur(4px);
     filter: blur(4px);
     height: 50vw;
 }
 
 #bg4 {
     z-index: -6;
+    -webkit-filter: blur(1px);
     filter: blur(1px);
 }
 
@@ -207,6 +231,8 @@ a {
     padding: 2rem;
     text-align: justify;
     font-size: large;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     margin: 6rem auto;
 }
@@ -228,6 +254,8 @@ a {
 .form-box {
     background-color: rgba(5, 20, 5, 0.212);
     padding: 2rem;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     margin: 6rem auto;
 }
@@ -255,6 +283,7 @@ a {
 .form-box input:focus,
 button:focus {
     outline: rgb(224, 224, 0) solid 1px;
+    -webkit-box-shadow: 0 0 10px rgb(224, 224, 0);
     box-shadow: 0 0 10px rgb(224, 224, 0);
 }
 
@@ -289,7 +318,11 @@ button:focus {
 }
 
 .flashed {
+    height: -webkit-fit-content;
+    height: -moz-fit-content;
     height: fit-content;
+    min-width: -webkit-fit-content;
+    min-width: -moz-fit-content;
     min-width: fit-content;
     margin: auto;
     margin-top: 1rem;
@@ -311,11 +344,18 @@ button:focus {
 }
 
 .games {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
 
     min-height: 80vh;
+    max-height: -webkit-fit-content;
+    max-height: -moz-fit-content;
     max-height: fit-content;
 
     background-color: rgba(0, 0, 0, 0.514);
@@ -323,10 +363,19 @@ button:focus {
 
 .games__container {
     min-width: 15rem;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     padding: 1rem 2rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 
@@ -385,6 +434,8 @@ button:focus {
     background-color: whitesmoke;
     padding: 0 8px;
     border-radius: 8px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     font-size: larger;
 }
@@ -420,6 +471,8 @@ td {
     background-color: whitesmoke;
     padding: 0 8px;
     border-radius: 8px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     font-size: larger;
 }
@@ -451,8 +504,15 @@ td {
 }
 
 .create {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
     gap: 2rem;
     background-color: rgba(0, 0, 0, 0.514);
@@ -495,9 +555,18 @@ td {
 }
 
 .genesis {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
     justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
     flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
     align-items: center;
 }
 
