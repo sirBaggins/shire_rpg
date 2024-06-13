@@ -36,6 +36,32 @@
         {% endif %}
         {% endfor %}
     </table>
+
+    <!-- health -->
+    <table class="generic_table">
+        <tr>
+            <th>
+                HEALTH:
+            </th>
+            <th>
+                VALUE:
+            </th>
+        </tr>
+
+        {% for value in data %}
+        {% if value.type == "health" %}
+        <tr>
+            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
+                {{ value.attribute|upper() }}
+            </td>
+            <td style="text-align: center;">
+                {{ value.value }}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+
     <!-- attributes -->
     <table class="generic_table">
         <tr>
@@ -60,6 +86,7 @@
         {% endif %}
         {% endfor %}
     </table>
+
 
     <!-- skills -->
     <table class="generic_table">
@@ -142,31 +169,6 @@
         {% endfor %}
     </table>
 
-    <!-- health -->
-    <table class="generic_table">
-        <tr>
-            <th>
-                HEALTH:
-            </th>
-            <th>
-                VALUE:
-            </th>
-        </tr>
-
-        {% for value in data %}
-        {% if value.type == "health" %}
-        <tr>
-            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
-                {{ value.attribute|upper() }}
-            </td>
-            <td style="text-align: center;">
-                {{ value.value }}
-            </td>
-        </tr>
-        {% endif %}
-        {% endfor %}
-    </table>
-
     <!-- notes -->
     <table class="generic_table">
         <tr>
@@ -198,32 +200,38 @@
     <form action="/create1" method="post">
         <table class="generic_table">
             <tr>
-                <th>Insert new attribute</th>
+                <th>Type</th>
+                <th>Attribute name</th>
                 <th>Value</th>
             </tr>
 
             <tr>
-                <input type="text" name="sheet_id" value="{{data[0].sheet_id}}" hidden>
+                <td>
+                    <select name="type" id="type" class="form-input" style="background-color: rgb(255, 255, 255);"
+                        autofocus>
+                        <option value="skill">Skill</option>
+                        <option value="attribute">Attribute</option>
+                        <option value="magic">Magic</option>
+                        <option value="notes">Notes</option>
+                        <option value="basic">Basic Info</option>
+                        <option value="bars">Bars</option>
+                        <option value="health">Health</option>
+                        <option value="other" id="other">Other</option>
+
+                    </select>
+                </td>
+
                 <td>
                     <input type="text" name="attribute" placeholder="attribute name" class="form-input" id="attribute"
-                        required autocomplete="off" autofocus>
+                        required autocomplete="off">
                 </td>
                 <td>
                     <input type="text" name="value" placeholder="attribute value" class="form-input" id="valuer"
                         autocomplete="off" required>
                 </td>
-                <td>
-                    <select name="type" id="type" class="form-input" style="background-color: rgb(255, 255, 255);">
-                        <option value="skill">Skill</option>
-                        <option value="attribute">Attribute</option>
-                        <option value="magic">Magic</option>
-                        <option value="basic">Basic Info</option>
-                        <option value="health">Health</option>
-                        <option value="notes">Notes</option>
-                        <option value="other" id="other">Other</option>
 
-                    </select>
-                </td>
+                <input type="text" name="sheet_id" value="{{data[0].sheet_id}}" hidden>
+
             </tr>
             <tr>
                 <td style="text-align: center;">
@@ -293,15 +301,24 @@
     }
 
     document.getElementById("type").addEventListener("change", (other) => {
-        let option = event.target.value;
+        const option = event.target.value;
+        let attributeInput = document.getElementById("attribute");
         let otherElement = document.getElementById("other")
+
         if (option === "other") {
             let opt = prompt("new attribute", "other");
             otherElement.innerText = opt;
             otherElement.value = opt;
         }
-        console.log(option)
+        else if (option === "health") {
+            attributeInput.value = "health";
+        }
+        else {
+            attributeInput.value = "";
+        }
     })
+
+
 
 </script>
 

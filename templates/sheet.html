@@ -6,181 +6,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RPG Character Sheet</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #eadbcb;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            border-radius: 8px;
-            background-color: #ffe1c2;
-            box-shadow: 0 0 40px rgb(0, 0, 0);
-        }
-
-        h1,
-        h2 {
-            text-align: center;
-            margin: 0 0 20px;
-        }
-
-        h2 {
-            font-size: 1.5em;
-            border-bottom: 2px solid #333;
-            padding-bottom: 5px;
-        }
-
-        .section {
-            margin-bottom: 20px;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 10px;
-        }
-
-        .input-group label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .input-group input,
-        .input-group select,
-        .input-group textarea {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1em;
-        }
-
-        .stat-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .stat {
-            flex: 1;
-            min-width: 100px;
-            text-align: center;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: #f0f0f0;
-        }
-
-        .grid-flow {
-            display: grid;
-            grid-auto-flow: row;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(2, 1fr);
-        }
-
-        .placeholder-black::placeholder {
-            color: black;
-        }
-
-        .health-bar-container {
-            width: 100%;
-            /* max-width: 500px; */
-            background-color: #610000;
-            border-radius: 25px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            border: none;
-        }
-
-        .health-bar {
-            height: 1rem;
-            width: 80%;
-            background-color: #004704;
-            transition: width 0.5s ease;
-        }
-
-        .btn {
-            border-radius: 8px;
-            border: none;
-            padding: 12px;
-            text-align: center;
-        }
-
-        .numerator {
-            position: absolute;
-            top: 8rem;
-
-            width: 3rem;
-            height: 2rem;
-            font-size: large;
-            border: none;
-            font-weight: bolder;
-            color: black;
-            background-color: rgba(0, 0, 0, 0);
-
-        }
-    </style>
+    <link rel="stylesheet" href="../static/sheet.css">
+    <script src="../static/script.js"></script>
 </head>
 
 <body>
+
+    <div class="floatReturn">
+        <a href="/games">
+            <i class="fixed-return">
+                <?xml version="1.0" encoding="iso-8859-1"?>
+                <svg fill="#000000" height="50px" width="50px" version="1.1" id="Layer_1"
+                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 330 330"
+                    xml:space="preserve">
+                    <path id="XMLID_6_" d="M165,0C74.019,0,0,74.019,0,165s74.019,165,165,165s165-74.019,165-165S255.981,0,165,0z M205.606,234.394
+        c5.858,5.857,5.858,15.355,0,21.213C202.678,258.535,198.839,260,195,260s-7.678-1.464-10.606-4.394l-80-79.998
+        c-2.813-2.813-4.394-6.628-4.394-10.606c0-3.978,1.58-7.794,4.394-10.607l80-80.002c5.857-5.858,15.355-5.858,21.213,0
+        c5.858,5.857,5.858,15.355,0,21.213l-69.393,69.396L205.606,234.394z" />
+                </svg>
+            </i>
+        </a>
+    </div>
+
+    <div class="floatUpDown">
+        <div class="floatUp">
+            <a href="#top">
+                <?xml version="1.0" encoding="utf-8"?>
+                <svg fill="#000000" width="50px" height="50px" viewBox="0 0 24 24" id="top-circle"
+                    data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
+                    <circle id="primary" cx="12" cy="12" r="10" style="fill: rgb(0, 0, 0);"></circle>
+                    <path id="secondary"
+                        d="M15.21,9.79l-2.5-2.5a1,1,0,0,0-1.42,0l-2.5,2.5a1,1,0,0,0,1.42,1.42l.79-.8V16a1,1,0,0,0,2,0V10.41l.79.8a1,1,0,0,0,1.42,0A1,1,0,0,0,15.21,9.79Z"
+                        style="fill: rgb(44, 169, 188);"></path>
+                </svg>
+            </a>
+        </div>
+        <div class="floatDown">
+            <a href="#bottom">
+                <?xml version="1.0" encoding="utf-8"?>
+                <svg fill="#000000" width="50px" height="50px" viewBox="0 0 24 24" id="top-circle"
+                    data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
+                    <circle id="primary" cx="12" cy="12" r="10" style="fill: rgb(0, 0, 0);"></circle>
+                    <path id="secondary"
+                        d="M15.21,9.79l-2.5-2.5a1,1,0,0,0-1.42,0l-2.5,2.5a1,1,0,0,0,1.42,1.42l.79-.8V16a1,1,0,0,0,2,0V10.41l.79.8a1,1,0,0,0,1.42,0A1,1,0,0,0,15.21,9.79Z"
+                        style="fill: rgb(44, 169, 188);"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+
+
+
     <div class="container">
+
         <h1>Character Sheet</h1>
 
         <!-- health -->
-        <div class="section">
-            <h2>HEALTH</h2>
-            <div class="bar-container">
+        <div>
+            <div class="section">
+                <h2>HEALTH</h2>
 
                 {% for value in data %}
                 {% if value.type == "health" %}
 
-                <input type="text" class="numerator" value="" id="numerator" disabled>
+                <div class="container-of-container">
+                    <h2 id="{{ value.attribute }}Title">0</h2>
 
-                <div class="health-bar-container">
-                    <div id="health-bar" class="health-bar"></div>
+                    <!-- health bar -->
+                    <div id="bar-container" class="bar-container">
+                        <div id="{{ value.attribute }}" class="bar"></div>
+                    </div>
+
+                    <!-- controls -->
+                    <div>
+
+                        <button onclick="updateBar('{{ value.attribute }}', '{{ value.value }}', 'sub')">Take
+                            Damage</button>
+                        <button onclick="updateBar('{{ value.attribute }}', '{{ value.value }}', 'add')">Heal</button>
+                    </div>
+
+                    <script>initBar('{{ value.attribute }}', '{{ value.value }}')</script>
                 </div>
-                <div class="controls">
-                    <button onclick="decreaseHealth(1)" class="btn">Decrease 1</button>
-                    <button onclick="increaseHealth(1)" class="btn">Increase 1</button>
-                </div>
 
-
-                <script>
-                    let currentHealth = "{{ value.value }}";
-                    const maxHealth = "{{ value.value }}";
-
-                    function updateHealthBar() {
-                        const healthBar = document.getElementById('health-bar');
-                        const numerator = document.getElementById("numerator");
-                        healthBar.style.width = `${(currentHealth / maxHealth) * 100}%`;
-                        numerator.value = currentHealth;
-                    }
-
-                    function increaseHealth(amount) {
-                        currentHealth = Math.min(maxHealth, currentHealth + amount);
-                        updateHealthBar();
-                    }
-
-                    function decreaseHealth(amount) {
-                        currentHealth = Math.max(0, currentHealth - amount);
-                        updateHealthBar();
-                    }
-
-                    // Initialize the health bar
-                    updateHealthBar();
-                </script>
                 {% endif %}
                 {% endfor %}
 
-
             </div>
 
+            <!-- bars -->
+            <div class="section">
+
+                {% for value in data %}
+                {% if value.type == "bars" %}
+                <div class="container-of-container">
+                    <h4 style="text-transform: uppercase;">{{ value.attribute }}</h4>
+                    <h2 id="{{ value.attribute }}Title">0</h2>
+
+                    <!-- health bar -->
+                    <div id="bar-container" class="bar-container">
+                        <div id="{{ value.attribute }}" class="bar"></div>
+                    </div>
+
+                    <!-- controls -->
+                    <div>
+
+                        <button onclick="updateBar('{{ value.attribute }}', '{{ value.value }}', 'sub')">Take
+                            Damage</button>
+                        <button onclick="updateBar('{{ value.attribute }}', '{{ value.value }}', 'add')">Heal</button>
+                    </div>
+
+                    <script>initBar('{{ value.attribute }}', '{{ value.value }}')</script>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+            </div>
         </div>
 
         <!-- basic -->
@@ -203,11 +143,11 @@
         <div class="section">
             <!-- attributes -->
             <h2>Attributes</h2>
-            <div class="grid-flow">
+            <div class="flex-box">
 
                 {% for value in data %}
                 {% if value.type == "attribute" %}
-                <div class="input-group">
+                <div class="flex-items">
 
                     <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
                     <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
@@ -223,11 +163,11 @@
             <div class="section">
                 <h2>Skills</h2>
 
-                <div class="grid-flow">
+                <div class="flex-box">
 
                     {% for value in data %}
                     {% if value.type == "skill" %}
-                    <div class="input-group">
+                    <div class="flex-items">
 
                         <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
                         <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
@@ -292,6 +232,8 @@
                 </div>
             </div>
         </div>
+
+        <a id="bottom"></a>
 </body>
 
 </html>
