@@ -48,6 +48,45 @@ function updateBar(id, maxValue, operator) {
 
 }
 
+function openDice(ID, insideID) {
+    const div = document.getElementById(ID);
+    const inside = document.getElementById(insideID);
+
+    if (div.className === "floatDice0") {
+        div.className = "floatDice1";
+        inside.style.display = "block";
+
+    }
+    else {
+        div.className = "floatDice0";
+        inside.style.display = "none";
+    }
+}
+
+function getRandomIntInclusive(min, max) {
+    const minCeiled = Math.ceil(min);
+    const maxFloored = Math.floor(max);
+    return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // The maximum is inclusive and the minimum is inclusive
+}
+
+
+function d20(dID, s, r, max) {
+    const dice = document.getElementById(dID);
+    const sum = document.getElementById(s);
+    const result = document.getElementById(r);
+
+    dice.innerText = getRandomIntInclusive(1, max);
+}
+
+
+function updater(dice, sum, result) {
+    const diceInput = document.getElementById(dice);
+    const diceSum = document.getElementById(sum);
+    const diceResult = document.getElementById(result);
+
+    diceResult.value = (parseInt(diceInput.innerText) + parseInt(diceSum.value))
+}
+
 
 
 
