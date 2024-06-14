@@ -70,12 +70,14 @@ function getRandomIntInclusive(min, max) {
 }
 
 
-function d20(dID, s, r, max) {
+function rollDice(dID, s, r, max) {
     const dice = document.getElementById(dID);
     const sum = document.getElementById(s);
     const result = document.getElementById(r);
 
     dice.innerText = getRandomIntInclusive(1, max);
+
+    updater(dID, s, r)
 }
 
 
@@ -88,6 +90,8 @@ function updater(dice, sum, result) {
 }
 
 
-
-
-
+window.addEventListener('popstate', (back) => {
+    if (document.getElementById("pageDice").className === "floatDice1") {
+        openDice('pageDice', 'inside');
+    }
+})

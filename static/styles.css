@@ -54,8 +54,8 @@ header {
 }
 
 .icon {
-    font-size: xx-large;
-    padding: 1rem;
+    font-size: 40pt;
+    padding: 2rem;
 
 }
 
@@ -66,7 +66,10 @@ header {
     height: max-content;
     -webkit-box-pack: left;
     -ms-flex-pack: left;
-    justify-content: left;
+    justify-content: center;
+
+    position: absolute;
+    bottom: 0;
 
 }
 
@@ -85,7 +88,7 @@ header {
     text-transform: capitalize;
     font-weight: bold;
     background-color: rgba(22, 22, 22, 0.37);
-    padding: 0.5rem 2rem;
+    padding: 1rem 2rem;
 }
 
 .dropdown__content_show a:hover {
