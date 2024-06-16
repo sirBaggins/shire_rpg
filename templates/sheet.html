@@ -147,9 +147,10 @@
                     <!-- controls -->
                     <div>
 
-                        <button onclick="updateBar('{{ value.attribute }}', '{{ value.value }}', 'sub')">Take
+                        <button onclick="updateBar('{{ value.attribute }}', '{{ value.value }}', 'sub', 'health')">Take
                             Damage</button>
-                        <button onclick="updateBar('{{ value.attribute }}', '{{ value.value }}', 'add')">Heal</button>
+                        <button
+                            onclick="updateBar('{{ value.attribute }}', '{{ value.value }}', 'add', 'health')">Heal</button>
                     </div>
 
                     <script>initBar('{{ value.attribute }}', '{{ value.value }}')</script>
@@ -171,15 +172,16 @@
 
                     <!-- health bar -->
                     <div id="bar-container" class="bar-container">
-                        <div id="{{ value.attribute }}" class="bar"></div>
+                        <div id="{{ value.attribute }}" class="bar2"></div>
                     </div>
 
                     <!-- controls -->
                     <div>
 
-                        <button onclick="updateBar('{{ value.attribute }}', '{{ value.value }}', 'sub')">Take
-                            Damage</button>
-                        <button onclick="updateBar('{{ value.attribute }}', '{{ value.value }}', 'add')">Heal</button>
+                        <button
+                            onclick="updateBar('{{ value.attribute }}', '{{ value.value }}', 'sub', 'notHealth')">Subtract</button>
+                        <button
+                            onclick="updateBar('{{ value.attribute }}', '{{ value.value }}', 'add', 'notHealth')">Add</button>
                     </div>
 
                     <script>initBar('{{ value.attribute }}', '{{ value.value }}')</script>

@@ -3,7 +3,7 @@ function initBar(id, maxValue) {
     document.getElementById(id + "Title").innerText = maxValue;
 }
 
-function updateBar(id, maxValue, operator) {
+function updateBar(id, maxValue, operator, type) {
     const fraction = (100 / maxValue);
     const barItself = document.getElementById(id);
     const numerator = document.getElementById(id + "Title");
@@ -36,14 +36,27 @@ function updateBar(id, maxValue, operator) {
         }
     }
 
-    const colorValue = parseInt(barItself.style.width);
+    if (type == "health") {
+        const colorValue = parseInt(barItself.style.width);
 
-    if (colorValue > 50) {
-        barItself.style.backgroundColor = '#4caf50'; // Green
-    } else if (colorValue > 25) {
-        barItself.style.backgroundColor = '#ffeb3b'; // Yellow
-    } else {
-        barItself.style.backgroundColor = '#f44336'; // Red
+        if (colorValue > 50) {
+            barItself.style.backgroundColor = '#4caf50'; // Green
+        } else if (colorValue > 25) {
+            barItself.style.backgroundColor = '#ffeb3b'; // Yellow
+        } else {
+            barItself.style.backgroundColor = '#f44336'; // Red
+        }
+    }
+    else {
+        const colorValue = parseInt(barItself.style.width);
+
+        if (colorValue > 50) {
+            barItself.style.backgroundColor = '#4c98af'; // Blue
+        } else if (colorValue > 25) {
+            barItself.style.backgroundColor = '#ffeb3b'; // Yellow
+        } else {
+            barItself.style.backgroundColor = '#f44336'; // Red
+        }
     }
 
 }
