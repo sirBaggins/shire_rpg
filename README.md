@@ -4,16 +4,22 @@
 
 # Shire_RPG
 
-Welcome to **Shire_RPG**, a comprehensive web application designed for RPG enthusiasts. With Shire_RPG, you can create, edit, and manage RPG character sheets for games like Vampire: The Masquerade and Dungeons & Dragons. This application also includes features such as dice rolling and campaign recall storage, all available for free!
+Welcome to **Shire_RPG**, a web application designed for RPG enthusiasts that want QUICK and EASY access to RPG custom player sheets. With Shire_RPG, you can create, edit, and manage RPG character sheets for games like Vampire: The Masquerade and Dungeons & Dragons and ALL others. This application also includes features such as dice rolling and campaign recall storage, all available for free!
+
+### This is an OpenSource app, so feel free to suggest changes or make a pull request!
+
 ## Features
 
+### IMPLEMENTED:
+
 * **Create and Edit Character Sheets:** Effortlessly create and customize character sheets for a variety of RPG games.  
-* **Dice Rolling:** Built-in dice rolling functionality to enhance your gameplay experience.  
-* **Campaign Recall:** Conveniently store and manage your campaign notes and history for easy reference.  
-* **Free to Use:** Enjoy all features without any cost.  
+* **Dice Rolling:** Built-in dice rolling functionality to enhance your gameplay experience.   
 
+### TO BE IMPLEMENTED:
 
-## Usage
+* ** Sheets linked to campaign with game master acccess (only owners can access files for now)
+* **Campaign Recall:** Conveniently store and manage your campaign notes and history for easy reference.
+* **Realtime content display** among players, like maps or songs (prolly embbed third party apps?)
 
 ### Creating a Character Sheet
 
@@ -28,3 +34,7 @@ Welcome to **Shire_RPG**, a comprehensive web application designed for RPG enthu
 2. If non attribute related, select the dice you want to roll (e.g., D20, D10).  
 3. Enter the number of dices to roll.  
 4. Click "Roll" to see the results.  
+
+### License:
+
+#### This project is licensed under the MIT License.
