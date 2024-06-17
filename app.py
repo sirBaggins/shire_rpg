@@ -235,3 +235,8 @@ def render_sheet(id):
             return render_template("sheet.html", data=query)
         else:
             return redirect(url_for("games"))
+        
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("404.html")
