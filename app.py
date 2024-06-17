@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # Configure application
 app = Flask(__name__)
-app.secret_key = b"frango_frito_151413"
+app.secret_key = ""
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
