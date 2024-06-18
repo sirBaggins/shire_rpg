@@ -3,8 +3,8 @@ from os import urandom
 from cs50 import SQL
 from flask import Flask, flash, redirect, url_for, render_template, request, session
 from flask_session import Session
-from flask_mail import Mail, Message
-from helpers import login_required, validate_credential
+
+from helpers import login_required, validate_credential, send
 from random import randint
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -21,21 +21,6 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config.from_object(__name__)
 Session(app)
-
-# Configure mail
-
-
-mail = Mail(app)
-
-# EMAIL
-def send(user, key) -> None:
-    message = Message(
-        subject="Shire_RPG password recovery",
-        recipients=[user],
-    )
-    message.body = "Did you forget your Shire_RPG password? It's been reset to " + key
-    mail.send(message)
-    return
 
 # INDEX
 @app.route("/")

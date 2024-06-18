@@ -1,8 +1,10 @@
+import os
 from re import compile, fullmatch
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import *
 
 from cs50 import SQL
 from flask import redirect, request, session, redirect
-from flask_mail import Mail, Message
 from functools import wraps
 
 
@@ -43,4 +45,17 @@ def validate_credential(credential, type):
         case _:
             raise ValueError("Invalid type", type)
         
-
+# EMAIL
+def send(user, key) -> None:
+    
+    sg = SendGridAPIClient(api_key='')
+    from_email = Email("setor.yabg@outlook.com")
+    to_email = To(user)
+    subject = "Shire_RPG password recovery"
+    content = Content("text/plain", "Your new password is: " + key)
+    mail = Mail(from_email, to_email, subject, content)
+    response = sg.client.mail.send.post(request_body=mail.get())
+    print(response.status_code)
+    print(response.body)
+    print(response.headers)
+    return
