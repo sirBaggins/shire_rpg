@@ -30,6 +30,7 @@ app.config["MAIL_PASSWORD"] = ""
 app.config["MAIL_USE_TLS"] = True
 app.config["MAIL_USE_SSL"] = False
 app.config["MAIL_DEFAULT_SENDER"] = ("Shire_RPG", "")
+
 mail = Mail(app)
 
 # EMAIL
@@ -303,7 +304,7 @@ def reset_password():
         elif not db.execute("SELECT email FROM users WHERE email = ?", email):
             flash("email couldn't sneak in...", "error")
             return redirect(url_for("reset_password"))
-        
+
         else:
             fresh_password = []
             for i in range(8):
@@ -311,8 +312,13 @@ def reset_password():
             settled = "".join(fresh_password)
             settled_hash = generate_password_hash(settled)
 
+            try:
+                send(email, settled)
+            except:
+                flash("failure", "error")
+                return redirect(url_for("reset_password"))
+
             db.execute("UPDATE users SET hash=? WHERE email = ?", settled_hash, email)
-            send(email, settled)
 
             flash("Password reseted. Check spam folder.", "success")
             return redirect(url_for("login"))
