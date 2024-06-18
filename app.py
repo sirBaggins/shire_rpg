@@ -23,25 +23,19 @@ app.config.from_object(__name__)
 Session(app)
 
 # Configure mail
-app.config["MAIL_SERVER"] = ""
-app.config["MAIL_PORT"] = ""
-app.config["MAIL_USERNAME"] = ""
-app.config["MAIL_PASSWORD"] = ""
-app.config["MAIL_USE_TLS"] = True
-app.config["MAIL_USE_SSL"] = False
-app.config["MAIL_DEFAULT_SENDER"] = ("Shire_RPG", "")
+
 
 mail = Mail(app)
 
 # EMAIL
-def send(user, key):
+def send(user, key) -> None:
     message = Message(
         subject="Shire_RPG password recovery",
         recipients=[user],
     )
     message.body = "Did you forget your Shire_RPG password? It's been reset to " + key
     mail.send(message)
-    return redirect(url_for("login"))
+    return
 
 # INDEX
 @app.route("/")
