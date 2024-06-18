@@ -2,6 +2,7 @@ from re import compile, fullmatch
 
 from cs50 import SQL
 from flask import redirect, request, session, redirect
+from flask_mail import Mail, Message
 from functools import wraps
 
 

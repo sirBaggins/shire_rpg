@@ -3,9 +3,14 @@ from os import urandom
 from cs50 import SQL
 from flask import Flask, flash, redirect, url_for, render_template, request, session
 from flask_session import Session
+from flask_mail import Mail, Message
 from helpers import login_required, validate_credential
+from random import randint
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
+# Database link
+db = SQL("sqlite:///shire.db")
 
 # Configure application
 app = Flask(__name__)
@@ -17,16 +22,32 @@ app.config["SESSION_TYPE"] = "filesystem"
 app.config.from_object(__name__)
 Session(app)
 
+# Configure mail
+app.config["MAIL_SERVER"] = ""
+app.config["MAIL_PORT"] = ""
+app.config["MAIL_USERNAME"] = ""
+app.config["MAIL_PASSWORD"] = ""
+app.config["MAIL_USE_TLS"] = True
+app.config["MAIL_USE_SSL"] = False
+app.config["MAIL_DEFAULT_SENDER"] = ("Shire_RPG", "")
+mail = Mail(app)
 
-# Database link
-db = SQL("sqlite:///shire.db")
+# EMAIL
+def send(user, key):
+    message = Message(
+        subject="Shire_RPG password recovery",
+        recipients=[user],
+    )
+    message.body = "Did you forget your Shire_RPG password? It's been reset to " + key
+    mail.send(message)
+    return redirect(url_for("login"))
 
 # INDEX
 @app.route("/")
 def index():
     return render_template("index.html")
 
-
+# REGISTER
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
@@ -61,7 +82,7 @@ def register():
             flash("Something went wrong.. Try again!", "error")
             return redirect(url_for("register"))
 
-
+# LOGIN
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -91,19 +112,41 @@ def login():
             flash("Password didn't fit well...", "error")
             return redirect(url_for("login"))
 
+# LOGOUT
 @app.route("/logout")
 @login_required
 def logout():
     session.clear()
     return redirect(url_for("index"))
 
-
-@app.route("/settings")
+# SETTINGS
+@app.route("/settings", methods=["GET", "POST"])
 @login_required
 def settings():
-    return render_template("settings.html")
+    if request.method == "GET":
+        return render_template("settings.html")
+    else:
+        actual = request.form.get("actual")
+        newPassword = request.form.get("password")
+        confirmPassword = request.form.get("confirmPassword")
+
+        if not validate_credential(actual, "password") or not validate_credential(newPassword, "password") or not validate_credential(confirmPassword, "password"):
+            flash("fields may not be empty", "error")
+            return redirect(url_for("settings"))
+        
+        hash = db.execute("SELECT hash FROM users WHERE user_id = ?", session["id"])
+        if not check_password_hash(hash[0]["hash"], actual):
+            flash("actual password didn't fit well", "error")
+            return redirect(url_for("settings"))
+        else:
+            hash = generate_password_hash(newPassword)
+            db.execute("UPDATE users SET hash=? WHERE user_id = ?", hash, session["id"])
+        
+        flash("DONE", "success")
+        return redirect(url_for("settings"))
 
 
+# SHEETS
 @app.route("/games", methods=["GET", "POST"])
 @login_required
 def games():
@@ -115,7 +158,7 @@ def games():
         character = request.form.get("characters")
         return str(character)
     
-
+# CREATE
 @app.route("/create", methods=["GET", "POST"])
 @login_required
 def create():
@@ -143,6 +186,7 @@ def create():
         else:
             return redirect(url_for("create"))    
 
+# CREATE SHEET
 @app.route("/create1", methods=["GET", "POST"])
 @login_required
 def create1():
@@ -208,7 +252,7 @@ def create1():
             flash("wrong post", "error")
             return redirect(url_for("create1"))
 
-
+# DELETE SHEET
 @app.route("/delete_sheet", methods=["GET", "POST"])
 @login_required
 def delete_sheet():
@@ -224,7 +268,7 @@ def delete_sheet():
         else:
             return redirect(url_for("games"))
 
-
+# RENDER SHEET
 @app.route("/sheet/<id>")
 def render_sheet(id):
     if not id:
@@ -236,7 +280,39 @@ def render_sheet(id):
         else:
             return redirect(url_for("games"))
         
-
+# HANDLE 404
 @app.errorhandler(404)
 def not_found(e):
     return render_template("404.html")
+
+# ABOUT
+@app.route("/about")
+def about():
+        return render_template("about.html")
+   
+# RESET PASSWORD
+@app.route("/reset_password", methods=["GET", "POST"])
+def reset_password():
+    if request.method == "GET":
+        return render_template("reset_password.html")
+    else:
+        email = request.form.get("email")
+        if not validate_credential(email, "email"):
+            flash("email couldn't sneak in...", "error")
+            return redirect(url_for("reset_password"))
+        elif not db.execute("SELECT email FROM users WHERE email = ?", email):
+            flash("email couldn't sneak in...", "error")
+            return redirect(url_for("reset_password"))
+        
+        else:
+            fresh_password = []
+            for i in range(8):
+                fresh_password.append(str(randint(0, 9)))
+            settled = "".join(fresh_password)
+            settled_hash = generate_password_hash(settled)
+
+            db.execute("UPDATE users SET hash=? WHERE email = ?", settled_hash, email)
+            send(email, settled)
+
+            flash("Password reseted. Check spam folder.", "success")
+            return redirect(url_for("login"))
