@@ -253,16 +253,21 @@ def delete_sheet():
 def render_sheet(id):
     if not id:
         return redirect(url_for("games"))
-    else:
-        if db.execute("SELECT 1 FROM sheets WHERE id = ?", id):
-            query = db.execute("SELECT * FROM game_data WHERE sheet_id = ?", id)
 
-            if query[0]["public"] == "true":
-                return render_template("sheet.html", data=query)
-            elif query[0]["user_id"] == session["id"]:
+    if verify_public := db.execute("SELECT * FROM sheets WHERE id = ?", id):
+        if verify_public[0]["public"] == "true":
+            if query := db.execute("SELECT * FROM game_data WHERE sheet_id = ?", id):
                 return render_template("sheet.html", data=query)
         else:
-            return redirect(url_for("games"))
+            if session_id := session.get("id"):
+                if verify_public[0]["user_id"] == session_id:
+                    return render_template("sheet.html", data=query)
+            else:
+                return redirect(url_for("games"))
+
+    else:
+        flash("failed to load", "error")
+        return redirect(url_for("games"))
         
 # HANDLE 404
 @app.errorhandler(404)
@@ -304,4 +309,4 @@ def reset_password():
             db.execute("UPDATE users SET hash=? WHERE email = ?", settled_hash, email)
 
             flash("Password reseted. Check spam folder.", "success")
-            return redirect(url_for("login"))
+            return redirect(url_for("login")) 
