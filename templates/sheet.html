@@ -105,8 +105,10 @@
             <h3>Dices</h3>
 
             <select name="dices" id="dices" class="selector">
+                <option value="100">D100</option>
                 <option value="20">D20</option>
                 <option value="10">D10</option>
+                <option value="12">D12</option>
                 <option value="8">D8</option>
                 <option value="6">D6</option>
                 <option value="4">D4</option>
@@ -246,9 +248,49 @@
                     {% endfor %}
 
                 </div>
-
-
             </div>
+
+            <!-- perks -->
+            <div class="section">
+                <h2>Perks</h2>
+
+                <div class="flex-box">
+
+                    {% for value in data %}
+                    {% if value.type == "perk" %}
+                    <div class="flex-items">
+
+                        <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
+                        <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
+
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <!-- talents -->
+            <div class="section">
+                <h2>Talents</h2>
+
+                <div class="flex-box">
+
+                    {% for value in data %}
+                    {% if value.type == "talents" %}
+                    <div class="flex-items">
+
+                        <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
+                        <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
+
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+
+
 
             <!-- magic -->
             <div class="section">

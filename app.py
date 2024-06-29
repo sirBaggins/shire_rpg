@@ -254,9 +254,13 @@ def render_sheet(id):
     if not id:
         return redirect(url_for("games"))
     else:
-        if db.execute("SELECT 1 FROM sheets WHERE id = ? AND user_id = ?", id, session["id"]):
+        if db.execute("SELECT 1 FROM sheets WHERE id = ?", id):
             query = db.execute("SELECT * FROM game_data WHERE sheet_id = ?", id)
-            return render_template("sheet.html", data=query)
+
+            if query[0]["public"] == "true":
+                return render_template("sheet.html", data=query)
+            elif query[0]["user_id"] == session["id"]:
+                return render_template("sheet.html", data=query)
         else:
             return redirect(url_for("games"))
         

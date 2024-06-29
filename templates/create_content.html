@@ -87,6 +87,55 @@
         {% endfor %}
     </table>
 
+    <!-- perks -->
+    <table class="generic_table">
+        <tr>
+            <th>
+                PERKS:
+            </th>
+            <th>
+                VALUE:
+            </th>
+        </tr>
+
+        {% for value in data %}
+        {% if value.type == "perks" %}
+        <tr>
+            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
+                {{ value.attribute|upper() }}
+            </td>
+            <td style="text-align: center;">
+                {{ value.value }}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+
+    <!-- talents -->
+    <table class="generic_table">
+        <tr>
+            <th>
+                TALENTS:
+            </th>
+            <th>
+                VALUE:
+            </th>
+        </tr>
+
+        {% for value in data %}
+        {% if value.type == "talents" %}
+        <tr>
+            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
+                {{ value.attribute|upper() }}
+            </td>
+            <td style="text-align: center;">
+                {{ value.value }}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
 
     <!-- skills -->
     <table class="generic_table">
@@ -101,31 +150,6 @@
 
         {% for value in data %}
         {% if value.type == "skill" %}
-        <tr>
-            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
-                {{ value.attribute|upper() }}
-            </td>
-            <td style="text-align: center;">
-                {{ value.value }}
-            </td>
-        </tr>
-        {% endif %}
-        {% endfor %}
-    </table>
-
-    <!-- magic -->
-    <table class="generic_table">
-        <tr>
-            <th>
-                MAGIC:
-            </th>
-            <th>
-                VALUE:
-            </th>
-        </tr>
-
-        {% for value in data %}
-        {% if value.type == "magic" %}
         <tr>
             <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
                 {{ value.attribute|upper() }}
@@ -169,6 +193,32 @@
         {% endfor %}
     </table>
 
+    <!-- magic -->
+    <table class="generic_table">
+        <tr>
+            <th>
+                MAGIC:
+            </th>
+            <th>
+                VALUE:
+            </th>
+        </tr>
+
+        {% for value in data %}
+        {% if value.type == "magic" %}
+        <tr>
+            <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
+                {{ value.attribute|upper() }}
+            </td>
+            <td style="text-align: center;">
+                {{ value.value }}
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+
+
     <!-- notes -->
     <table class="generic_table">
         <tr>
@@ -211,12 +261,14 @@
                         autofocus>
                         <option value="skill">Skill</option>
                         <option value="attribute">Attribute</option>
+                        <option value="other" id="other">Other</option>
+                        <option value="perks">Perks</option>
+                        <option value="talents">Talents</option>
+                        <option value="basic">Basic Info</option>
                         <option value="magic">Magic</option>
                         <option value="notes">Notes</option>
-                        <option value="basic">Basic Info</option>
                         <option value="bars">Bars</option>
                         <option value="health">Health</option>
-                        <option value="other" id="other">Other</option>
 
                     </select>
                 </td>
