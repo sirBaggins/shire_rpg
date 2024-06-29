@@ -254,20 +254,20 @@ def render_sheet(id):
     if not id:
         return redirect(url_for("games"))
 
-    if verify_public := db.execute("SELECT * FROM sheets WHERE id = ?", id):
-        if verify_public[0]["public"] == "true":
+    request_render = db.execute("SELECT * FROM sheets WHERE id = ?", id)
+    if not request_render:
+        flash("failed to load", "error")
+        return redirect(url_for("games"))
+
+    if request_render[0]["public"] == "true":
+            if query := db.execute("SELECT * FROM game_data WHERE sheet_id = ?", id):
+                return render_template("sheet.html", data=query)
+    else:
+        if request_render[0]["user_id"] == session.get("id"):
             if query := db.execute("SELECT * FROM game_data WHERE sheet_id = ?", id):
                 return render_template("sheet.html", data=query)
         else:
-            if session_id := session.get("id"):
-                if verify_public[0]["user_id"] == session_id:
-                    return render_template("sheet.html", data=query)
-            else:
-                return redirect(url_for("games"))
-
-    else:
-        flash("failed to load", "error")
-        return redirect(url_for("games"))
+            return redirect(url_for("games"))
         
 # HANDLE 404
 @app.errorhandler(404)
