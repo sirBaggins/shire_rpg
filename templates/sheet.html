@@ -119,7 +119,7 @@
                     <button type="button" id="dice" onclick="rollDice('dice', 'diceSum', 'diceResult', 20)"
                         class="diceBTN">Roll
                     </button> + <input type="text" id="diceSum" class="diceInput" value="0"> = <input type="text"
-                        id="diceResult" class="diceInput" disabled>
+                        id="diceResult" class="diceInput" readonly>
                 </div>
             </div>
         </div>
@@ -203,7 +203,7 @@
             <div class="input-group">
 
                 <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
-                <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
+                <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" readonly>
 
             </div>
             {% endif %}
@@ -221,7 +221,7 @@
                 <div class="flex-items">
 
                     <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
-                    <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
+                    <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" readonly>
 
                 </div>
                 {% endif %}
@@ -241,7 +241,7 @@
                     <div class="flex-items">
 
                         <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
-                        <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
+                        <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" readonly>
 
                     </div>
                     {% endif %}
@@ -261,7 +261,7 @@
                     <div class="flex-items">
 
                         <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
-                        <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
+                        <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" readonly>
 
                     </div>
                     {% endif %}
@@ -281,7 +281,7 @@
                     <div class="flex-items">
 
                         <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
-                        <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
+                        <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" readonly>
 
                     </div>
                     {% endif %}
@@ -289,8 +289,6 @@
 
                 </div>
             </div>
-
-
 
             <!-- magic -->
             <div class="section">
@@ -301,8 +299,7 @@
                 <div class="input-group">
 
                     <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
-                    <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
-
+                    <textarea id="{{ value.attribute }}" class="textarea" readonly>{{value.value|upper() }}</textarea>
                 </div>
 
                 {% endif %}
@@ -315,11 +312,12 @@
                 <h2>Other</h2>
 
                 {% for value in data %}
-                {% if value.type not in ["basic", "attribute", "skill", "magic", "health", "notes"] %}
+                {% if value.type not in ["basic", "skill", "magic", "attribute", "notes", "health", "perks", "talents",
+                "bars"] %}
                 <div class="input-group">
 
                     <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
-                    <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" disabled>
+                    <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" readonly>
 
                 </div>
 
@@ -337,7 +335,7 @@
                     {% if value.type == "notes" %}
                     <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
                     <textarea id="{{ value.attribute }}" rows="5" placeholder="{{ value.value }}"
-                        class="placeholder-black" disabled></textarea>
+                        class="placeholder-black" readonly></textarea>
                     {% endif %}
                     {% endfor %}
                 </div>
@@ -354,11 +352,21 @@
                     <button type="button" id="dice" onclick="rollDice('dice', 'diceSum', 'diceResult', ${option})"
                         class="diceBTN">Roll
                         dice</button> + <input type="text" id="diceSum" class="diceInput" value="0"> = <input
-                        type="text" id="diceResult" class="diceInput" disabled>
+                        type="text" id="diceResult" class="diceInput" readonly>
                 </div>`
             })
 
         </script>
+        <style>
+            textarea {
+                resize: none;
+                height: 10rem;
+                width: 95%;
+
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+            }
+        </style>
 </body>
 
 </html>

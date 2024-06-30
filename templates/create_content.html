@@ -29,7 +29,7 @@
         {% for value in data %}
         {% if value.type == "basic" %}
         <tr>
-            <td>
+            <td onclick="upToDelete('{{value.attribute}}')" class="hover_red">
                 {{ value.value|upper() }} ({{ value.attribute }})
             </td>
         </tr>
@@ -177,7 +177,8 @@
         </tr>
 
         {% for value in data %}
-        {% if value.type not in ["basic", "skill", "magic", "attribute", "notes", "health"] %}
+        {% if value.type not in ["basic", "skill", "magic", "attribute", "notes", "health", "perks", "talents", "bars"]
+        %}
         <tr>
             <td class="hover_red" onclick="upToDelete('{{value.attribute}}')" style="text-align: center;">
                 {{ value.attribute|upper() }}
@@ -261,12 +262,12 @@
                         autofocus>
                         <option value="skill">Skill</option>
                         <option value="attribute">Attribute</option>
-                        <option value="other" id="other">Other</option>
                         <option value="perks">Perks</option>
                         <option value="talents">Talents</option>
                         <option value="basic">Basic Info</option>
                         <option value="magic">Magic</option>
                         <option value="notes">Notes</option>
+                        <option value="other" id="other">Other</option>
                         <option value="bars">Bars</option>
                         <option value="health">Health</option>
 
