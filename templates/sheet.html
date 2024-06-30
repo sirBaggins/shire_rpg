@@ -199,7 +199,19 @@
             <h2>Basic Info</h2>
 
             {% for value in data %}
-            {% if value.type == "basic" %}
+            {% if value.type == "basic" and value.attribute == "name" %}
+            <div class="input-group">
+
+                <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
+                <input type="text" id="{{ value.attribute }}" value="{{ value.value|upper() }}" readonly>
+
+            </div>
+            {% endif %}
+            {% endfor %}
+
+
+            {% for value in data %}
+            {% if value.type == "basic" and value.attribute != "name" %}
             <div class="input-group">
 
                 <label for="{{ value.attribute }}">{{ value.attribute|title }}:</label>
