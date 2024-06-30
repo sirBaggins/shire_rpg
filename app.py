@@ -214,9 +214,12 @@ def create1():
             attribute = request.form.get("attribute")
             id = request.form.get("sheet_id")
 
-            if not attribute or not id or attribute == "name" or attribute == "game":
-                flash("attribute to be deleted cannot be empty, name or game", "error")
-                return redirect(url_for("games"))
+            if not attribute or not id:
+                flash("attribute to be deleted cannot be empty", "error")
+                return redirect(url_for("create1"))
+            
+            if attribute == "name" or attribute == "game":
+                return redirect(url_for("create1"))
 
             test = db.execute("SELECT user_id FROM sheets WHERE id = ?", id)
             if test[0]["user_id"] == session["id"]:
